@@ -262,7 +262,7 @@ export default function HomePage() {
                 </div>
               </div>
               <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                BrandOffers
+                FindMyDeals
               </span>
             </Link>
 
@@ -319,7 +319,7 @@ export default function HomePage() {
                 className="border-gray-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent hidden md:flex text-xs lg:text-sm px-2 lg:px-4"
                 asChild
               >
-                <Link href="/auth/customer/login">Customer</Link>
+                <Link href="/auth/customer/login">Customer Login</Link>
               </Button>
 
               {/* Brand Login */}
@@ -437,7 +437,7 @@ export default function HomePage() {
           <div className="text-center max-w-4xl mx-auto animate-fade-in-up">
             <div className="mb-6">
               <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 text-sm font-medium animate-pulse">
-                🎉 Over $10M saved by our community this month!
+                🚀 Join smart shoppers saving daily!
               </Badge>
             </div>
 
@@ -884,7 +884,7 @@ export default function HomePage() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose BrandOffers?</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose FindMyDeals?</h2>
             <p className="text-xl text-gray-600">Experience the best way to discover and claim exclusive offers</p>
           </div>
 
@@ -1125,7 +1125,7 @@ export default function HomePage() {
 
           <div className="border-t border-gray-800 mt-12 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-gray-400 mb-4 md:mb-0">&copy; 2024 BrandOffers. All rights reserved.</p>
+              <p className="text-gray-400 mb-4 md:mb-0">&copy; 2025 FindMyDeals. All rights reserved.</p>
               <div className="flex items-center space-x-6 text-sm text-gray-400">
                 <span>🔒 SSL Secured</span>
                 <span>✓ GDPR Compliant</span>
