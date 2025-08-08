@@ -194,7 +194,7 @@ export default function CustomerLoginPage() {
                     <Checkbox
                       id="remember"
                       checked={rememberMe}
-                      onCheckedChange={setRememberMe}
+                      onCheckedChange={checked => setRememberMe(checked === true)}
                       className="border-2 border-gray-300 data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
                     />
                     <Label htmlFor="remember" className="text-sm text-gray-600 cursor-pointer">
