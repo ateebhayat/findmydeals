@@ -26,6 +26,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { useCustomerDashboard, useClaimedOffers } from "@/hooks/useApi"
+import { useAuth } from "@/context/AuthContext"
 
 // Mock user data
 const userData = {
@@ -170,16 +172,17 @@ const recentActivity = [
 
 export default function CustomerDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
-  const [user, setUser] = useState(userData)
+const {user} = useAuth()
+  // React Query hooks
+  const { data: dashboardData, isLoading: dashboardLoading, error: dashboardError } = useCustomerDashboard()
+  const { data: claimedOffersData, isLoading: claimedOffersLoading, error: claimedOffersError } = useClaimedOffers({ limit: 10 })
 
-  useEffect(() => {
-    // In a real app, fetch user data from API
-    const userType = localStorage.getItem("userType")
-    if (userType !== "customer") {
-      // Redirect to login if not a customer
-      window.location.href = "/auth/customer/login"
-    }
-  }, [])
+  // Extract data with fallbacks
+  const dashboard = dashboardData?.data || null
+  const claimedOffers = claimedOffersData?.data?.offers || []
+  const isLoading = dashboardLoading || claimedOffersLoading
+
+ console.log({user})
 
   const getDaysLeft = (validUntil: string) => {
     const days = Math.ceil((new Date(validUntil).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
@@ -248,19 +251,19 @@ export default function CustomerDashboard() {
             <div className="flex items-center space-x-4">
               <Button variant="ghost" size="sm" className="relative">
                 <Bell className="h-5 w-5" />
-                {user.notifications > 0 && (
+                {dashboard?.notifications > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {user.notifications}
+                    {dashboard.notifications}
                   </span>
                 )}
               </Button>
               <Avatar className="w-8 h-8">
-                <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
+                <AvatarImage src={dashboard?.avatar || "/placeholder.svg"} alt={dashboard?.name || "User"} />
                 <AvatarFallback>
-                  {user.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
+                  {dashboard?.name
+                    ?.split(" ")
+                    .map((n: string) => n[0])
+                    .join("") || "U"}
                 </AvatarFallback>
               </Avatar>
             </div>
@@ -276,14 +279,14 @@ export default function CustomerDashboard() {
             <div className="relative">
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-3xl font-bold mb-2">Welcome back, {user.name.split(" ")[0]}! 👋</h1>
-                  <p className="text-blue-100 text-lg">
-                    You've saved ${user.totalSavings.toLocaleString()} so far this year!
-                  </p>
+                  <h1 className="text-3xl font-bold mb-2">Welcome back, {dashboard?.name?.split(" ")[0] || "User"}! 👋</h1>
+                                      <p className="text-blue-100 text-lg">
+                      You've saved ${dashboard?.totalSavings?.toLocaleString() || "0"} so far this year!
+                    </p>
                 </div>
                 <div className="hidden md:block">
                   <div className="text-right">
-                    <div className="text-2xl font-bold">{user.membershipLevel}</div>
+                    <div className="text-2xl font-bold">{userData.membershipLevel}</div>
                     <div className="text-blue-100">Member</div>
                   </div>
                 </div>
@@ -293,9 +296,9 @@ export default function CustomerDashboard() {
               <div className="mt-6">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-blue-100">Progress to Platinum</span>
-                  <span className="text-white font-medium">{user.nextLevelProgress}%</span>
+                  <span className="text-white font-medium">{userData.nextLevelProgress}%</span>
                 </div>
-                <Progress value={user.nextLevelProgress} className="h-2 bg-white/20" />
+                <Progress value={userData.nextLevelProgress} className="h-2 bg-white/20" />
               </div>
             </div>
           </div>
@@ -311,7 +314,7 @@ export default function CustomerDashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-green-900">${user.totalSavings.toLocaleString()}</div>
+                              <div className="text-3xl font-bold text-green-900">${dashboard?.totalSavings?.toLocaleString() || "0"}</div>
               <p className="text-xs text-green-600">+$234 this month</p>
             </CardContent>
           </Card>
@@ -327,7 +330,7 @@ export default function CustomerDashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-blue-900">{user.claimedOffers}</div>
+              <div className="text-3xl font-bold text-blue-900">{userData.claimedOffers}</div>
               <p className="text-xs text-blue-600">+3 this week</p>
             </CardContent>
           </Card>
@@ -343,7 +346,7 @@ export default function CustomerDashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-purple-900">{user.rewardPoints.toLocaleString()}</div>
+              <div className="text-3xl font-bold text-purple-900">{userData.rewardPoints.toLocaleString()}</div>
               <p className="text-xs text-purple-600">+150 this month</p>
             </CardContent>
           </Card>
@@ -359,7 +362,7 @@ export default function CustomerDashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-orange-900">{user.favoriteOffers}</div>
+              <div className="text-3xl font-bold text-orange-900">{userData.favoriteOffers}</div>
               <p className="text-xs text-orange-600">2 expiring soon</p>
             </CardContent>
           </Card>
@@ -450,12 +453,7 @@ export default function CustomerDashboard() {
                         Hot Deals
                       </Link>
                     </Button>
-                    <Button variant="outline" className="w-full justify-start bg-transparent" asChild>
-                      <Link href="/customer/profile">
-                        <Settings className="w-4 h-4 mr-2" />
-                        Account Settings
-                      </Link>
-                    </Button>
+                    
                   </CardContent>
                 </Card>
 
@@ -469,16 +467,16 @@ export default function CustomerDashboard() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-yellow-600 mb-2">{user.membershipLevel}</div>
+                      <div className="text-2xl font-bold text-yellow-600 mb-2">{userData.membershipLevel}</div>
                       <p className="text-sm text-gray-600 mb-4">
-                        Member since {new Date(user.joinDate).toLocaleDateString()}
+                        Member since {new Date(userData.joinDate).toLocaleDateString()}
                       </p>
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span>Progress to Platinum</span>
-                          <span>{user.nextLevelProgress}%</span>
+                          <span>{userData.nextLevelProgress}%</span>
                         </div>
-                        <Progress value={user.nextLevelProgress} className="h-2" />
+                        <Progress value={userData.nextLevelProgress} className="h-2" />
                       </div>
                       <p className="text-xs text-gray-500 mt-2">Spend $500 more to reach Platinum</p>
                     </div>
@@ -505,7 +503,7 @@ export default function CustomerDashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {claimedOffers.map((offer, index) => (
+              {claimedOffers.map((offer:any, index:number) => (
                 <Card
                   key={offer.id}
                   className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white animate-fade-in-up group"

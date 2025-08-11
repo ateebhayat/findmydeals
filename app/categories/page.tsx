@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Store, Search, Shirt, Coffee, Smartphone, Heart, Home, Car, Dumbbell, Wrench, Sparkles } from "lucide-react"
 import Link from "next/link"
+import { useState, useEffect } from "react"
+import { useAuth } from "@/context/AuthContext"
+import { useCategories } from "@/hooks/useApi"
 
 const categories = [
   {
@@ -81,6 +84,14 @@ const categories = [
 ]
 
 export default function CategoriesPage() {
+  const { user, isAuthenticated } = useAuth()
+
+  // React Query hook
+  const { data: categoriesData, isLoading, error } = useCategories()
+
+  // Extract data with fallback
+  const categoriesList = categoriesData?.data?.categories || categories
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Header */}
@@ -170,7 +181,7 @@ export default function CategoriesPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {categories.map((category) => {
+            {categoriesList.map((category: any) => {
               const IconComponent = category.icon
               return (
                 <Card

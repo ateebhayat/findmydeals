@@ -22,7 +22,9 @@ import {
   Share2,
 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useAuth } from "@/context/AuthContext"
+import { useOffers, useCategories } from "@/hooks/useApi"
 
 const offers = [
   {
@@ -184,6 +186,21 @@ export default function OffersPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [sortBy, setSortBy] = useState("newest")
   const [filterBy, setFilterBy] = useState("all")
+  const { user, isAuthenticated } = useAuth()
+
+  // React Query hooks
+  const { data: offersData, isLoading: offersLoading, error: offersError } = useOffers({
+    category: selectedCategory !== "all" ? selectedCategory : undefined,
+    sort: sortBy,
+    search: searchQuery || undefined,
+  })
+  
+  const { data: categoriesData, isLoading: categoriesLoading, error: categoriesError } = useCategories()
+
+  // Extract data with fallbacks
+  const offers = offersData?.data?.offers || offers
+  const categories = categoriesData?.data?.categories || []
+  const isLoading = offersLoading || categoriesLoading
 
   const getDaysLeft = (validUntil: string) => {
     const days = Math.ceil((new Date(validUntil).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))

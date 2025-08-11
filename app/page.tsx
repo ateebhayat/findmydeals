@@ -28,6 +28,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { useAuth } from "@/context/AuthContext"
+import { useOffers, useHotDeals, useCategories } from "@/hooks/useApi"
 
 // Enhanced mock data with more realistic content
 const featuredOffers = [
@@ -212,6 +214,25 @@ export default function HomePage() {
   const [bookmarkedOffers, setBookmarkedOffers] = useState<number[]>([])
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { user, isAuthenticated } = useAuth()
+
+  // React Query hooks
+  const { data: offersData, isLoading: offersLoading, error: offersError } = useOffers({ 
+    limit: 6, 
+    sort: "trending"
+  })
+  
+  const { data: hotDealsData, isLoading: hotDealsLoading, error: hotDealsError } = useHotDeals({ 
+    limit: 3 
+  })
+  
+  const { data: categoriesData, isLoading: categoriesLoading, error: categoriesError } = useCategories()
+
+  // Extract data with fallbacks
+  const offers = offersData?.data?.offers || featuredOffers
+  const hotDeals = hotDealsData?.data?.deals || []
+  const categories = categoriesData?.data?.categories || []
+  const isLoading = offersLoading || hotDealsLoading || categoriesLoading
 
   // Auto-rotate testimonials
   useEffect(() => {
@@ -547,7 +568,7 @@ export default function HomePage() {
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 animate-fade-in-up"
             style={{ animationDelay: "200ms" }}
           >
-            {categories.map((category, index) => (
+                            {categories.map((category: any, index: number) => (
               <Card
                 key={category.name}
                 className="border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer bg-white/80 backdrop-blur-sm group overflow-hidden"
@@ -599,7 +620,20 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredOffers.map((offer, index) => (
+                            {isLoading ? (
+                  // Loading skeleton
+                  Array.from({ length: 3 }).map((_, index) => (
+                    <Card key={index} className="overflow-hidden hover:shadow-lg transition-all duration-300 animate-pulse">
+                      <div className="aspect-video bg-gray-200"></div>
+                      <CardContent className="p-6">
+                        <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                        <div className="h-3 bg-gray-200 rounded mb-4"></div>
+                        <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+                      </CardContent>
+                    </Card>
+                  ))
+                ) : (
+                  offers.map((offer: any, index: number) => (
               <Card
                 key={offer.id}
                 className="border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer bg-white animate-fade-in-up group overflow-hidden"
@@ -729,7 +763,7 @@ export default function HomePage() {
 
                   {/* Enhanced Tags */}
                   <div className="flex flex-wrap gap-1">
-                    {offer.tags.slice(0, 4).map((tag) => (
+                    {offer.tags.slice(0, 4).map((tag: string) => (
                       <Badge
                         key={tag}
                         variant="outline"
@@ -803,7 +837,8 @@ export default function HomePage() {
                   </Button>
                 </CardContent>
               </Card>
-            ))}
+                ))
+              )}
           </div>
 
           <div className="text-center mt-12 md:hidden">

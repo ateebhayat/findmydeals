@@ -7,7 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Store, Search, MapPin, Globe, Star, ExternalLink, Users, TrendingUp, Filter, ArrowRight } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useAuth } from "@/context/AuthContext"
+import { useBrands } from "@/hooks/useApi"
 
 const brands = [
   {
@@ -119,6 +121,17 @@ export default function BrandsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [sortBy, setSortBy] = useState("newest")
+  const { user, isAuthenticated } = useAuth()
+
+  // React Query hook
+  const { data: brandsData, isLoading, error } = useBrands({
+    search: searchQuery || undefined,
+    category: selectedCategory !== "all" ? selectedCategory : undefined,
+    sort: sortBy,
+  })
+
+  // Extract data with fallback
+  const brandsList = brandsData?.data?.brands || brands
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
@@ -295,7 +308,7 @@ export default function BrandsPage() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {brands.map((brand, index) => (
+                          {brandsList.map((brand: any, index: number) => (
               <Card
                 key={brand.id}
                 className="border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-white/80 backdrop-blur-sm animate-fade-in-up group overflow-hidden"

@@ -28,6 +28,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { useAuth } from "@/context/AuthContext"
+import { useHotDeals } from "@/hooks/useApi"
 
 const hotDeals = [
   {
@@ -198,12 +200,23 @@ export default function HotDealsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [likedDeals, setLikedDeals] = useState<number[]>([])
   const [timeLeft, setTimeLeft] = useState<{ [key: number]: string }>({})
+  const { user, isAuthenticated } = useAuth()
+
+  // React Query hook
+  const { data: dealsData, isLoading: dealsLoading, error: dealsError } = useHotDeals({
+    limit: 20,
+    category: searchQuery || undefined,
+  })
+
+  // Extract data with fallback
+  const deals = dealsData?.data?.deals || hotDeals
+  const isLoading = dealsLoading
 
   // Update countdown timers
   useEffect(() => {
     const updateTimers = () => {
       const newTimeLeft: { [key: number]: string } = {}
-      hotDeals.forEach((deal) => {
+      deals.forEach((deal) => {
         const now = new Date().getTime()
         const endTime = new Date(deal.validUntil).getTime()
         const difference = endTime - now
@@ -231,7 +244,7 @@ export default function HotDealsPage() {
     const interval = setInterval(updateTimers, 60000) // Update every minute
 
     return () => clearInterval(interval)
-  }, [])
+  }, [deals])
 
   const handleLikeDeal = (dealId: number) => {
     setLikedDeals((prev) => (prev.includes(dealId) ? prev.filter((id) => id !== dealId) : [...prev, dealId]))
