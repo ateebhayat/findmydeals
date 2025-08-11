@@ -406,7 +406,7 @@ export default function HotDealsPage() {
             </div>
 
             {/* Stats */}
-            <div
+            {/* <div
               className="grid grid-cols-2 md:grid-cols-4 gap-8 animate-fade-in-up"
               style={{ animationDelay: "400ms" }}
             >
@@ -438,7 +438,7 @@ export default function HotDealsPage() {
                 <div className="text-gray-600">Total Savings</div>
                 <div className="text-xs text-green-600 font-medium">This Week!</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
