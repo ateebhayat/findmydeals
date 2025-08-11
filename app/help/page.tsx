@@ -13,7 +13,7 @@ const faqCategories = [
     icon: Book,
     faqs: [
       {
-        question: "How do I register my brand on BrandOffers?",
+        question: "How do I register my brand on FindMyDeals?",
         answer:
           "To register your brand, click the 'Register Brand' button on our homepage. Fill out the registration form with your brand information, contact details, and business address. After submission, our team will review your application within 1-2 business days.",
       },
@@ -116,7 +116,7 @@ export default function HelpPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Store className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-primary">BrandOffers</h1>
+              <h1 className="text-2xl font-bold text-primary">FindMyDeals</h1>
             </div>
             <nav className="hidden md:flex items-center space-x-6">
               <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
@@ -146,7 +146,7 @@ export default function HelpPage() {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Help Center</h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Find answers to common questions and get the help you need to make the most of BrandOffers.
+            Find answers to common questions and get the help you need to make the most of FindMyDeals.
           </p>
 
           {/* Search Bar */}
@@ -164,7 +164,7 @@ export default function HelpPage() {
             <CardHeader className="text-center">
               <Book className="h-8 w-8 text-primary mx-auto mb-2" />
               <CardTitle className="text-lg">Getting Started</CardTitle>
-              <CardDescription>Learn the basics of using BrandOffers</CardDescription>
+              <CardDescription>Learn the basics of using FindMyDeals</CardDescription>
             </CardHeader>
           </Card>
 

@@ -161,7 +161,7 @@ const recentActivity = [
     id: 3,
     type: "achievement",
     title: "Reached Gold membership level",
-    brand: "BrandOffers",
+    brand: "FindMyDeals",
     timestamp: "3 days ago",
     icon: Award,
     color: "text-yellow-600",
@@ -226,7 +226,7 @@ export default function CustomerDashboard() {
                 </div>
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                BrandOffers
+                FindMyDeals
               </span>
             </Link>
 
@@ -719,8 +719,8 @@ export default function CustomerDashboard() {
                       {
                         id: 6,
                         type: "join",
-                        title: "Joined BrandOffers community",
-                        brand: "BrandOffers",
+                        title: "Joined FindMyDeals community",
+                        brand: "FindMyDeals",
                         timestamp: "2 weeks ago",
                         icon: Users,
                         color: "text-green-600",

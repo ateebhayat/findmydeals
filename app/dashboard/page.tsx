@@ -94,7 +94,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  BrandOffers
+                  FindMyDeals
                 </span>
               </Link>
               <Badge className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 border-blue-200">

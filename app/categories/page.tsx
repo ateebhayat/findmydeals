@@ -95,7 +95,7 @@ export default function CategoriesPage() {
                 </div>
               </div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                BrandOffers
+                FindMyDeals
               </h1>
             </div>
             <nav className="hidden md:flex items-center space-x-8">

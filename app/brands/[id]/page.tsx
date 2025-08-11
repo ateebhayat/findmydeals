@@ -72,7 +72,7 @@ export default function BrandProfilePage({ params }: { params: { id: string } })
               </Button>
               <div className="flex items-center space-x-2">
                 <Store className="h-6 w-6 text-primary" />
-                <span className="text-xl font-bold text-primary">BrandOffers</span>
+                <span className="text-xl font-bold text-primary">FindMyDeals</span>
               </div>
             </div>
             <div className="flex items-center space-x-2">

@@ -296,7 +296,7 @@ export default function HotDealsPage() {
                 </div>
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
-                BrandOffers
+                FindMyDeals
               </span>
             </Link>
 

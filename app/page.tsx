@@ -181,7 +181,7 @@ const testimonials = [
     avatar: "/placeholder.svg?height=60&width=60&text=SJ",
     role: "Fashion Enthusiast",
     content:
-      "I've saved over $2,000 this year using BrandOffers! The deals are incredible and the platform is so easy to use.",
+      "I've saved over $2,000 this year using FindMyDeals! The deals are incredible and the platform is so easy to use.",
     rating: 5,
     savings: "$2,156",
   },
@@ -446,7 +446,7 @@ export default function HomePage() {
                 Discover Amazing
               </span>
               <br />
-              <span className="text-gray-900">Brand Offers</span>
+              <span className="text-gray-900">Deals and Offers</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed">
               Connect with your favorite brands and unlock exclusive deals, discounts, and offers tailored just for you.
@@ -498,7 +498,7 @@ export default function HomePage() {
             </div>
 
             {/* Enhanced Stats */}
-            <div
+            {/* <div
               className="grid grid-cols-2 md:grid-cols-4 gap-8 animate-fade-in-up"
               style={{ animationDelay: "400ms" }}
             >
@@ -530,7 +530,7 @@ export default function HomePage() {
                 <div className="text-gray-600">Savings Generated</div>
                 <div className="text-xs text-green-600 font-medium">This month alone!</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -1014,7 +1014,7 @@ export default function HomePage() {
                 <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl">
                   <Store className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-xl font-bold">BrandOffers</span>
+                <span className="text-xl font-bold">FindMyDeals</span>
               </div>
               <p className="text-gray-400 leading-relaxed mb-6">
                 Connecting customers with their favorite brands through exclusive offers and deals. Join our community

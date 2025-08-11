@@ -91,7 +91,7 @@ export default function CustomerRegisterPage() {
                 </div>
               </div>
               <span className="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                BrandOffers
+                FindMyDeals
               </span>
             </Link>
 
@@ -154,7 +154,7 @@ export default function CustomerRegisterPage() {
                     </div>
                   </div>
                   <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                    BrandOffers
+                    FindMyDeals
                   </span>
                 </Link>
               </div>
@@ -296,7 +296,7 @@ export default function CustomerRegisterPage() {
                     <Checkbox
                       id="terms"
                       checked={agreeToTerms}
-                      onCheckedChange={setAgreeToTerms}
+                      onCheckedChange={(checked) => setAgreeToTerms(checked === "indeterminate" ? false : checked)}
                       className="border-2 border-gray-300 data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600 mt-1"
                     />
                     <Label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer leading-relaxed">
@@ -315,7 +315,7 @@ export default function CustomerRegisterPage() {
                     <Checkbox
                       id="newsletter"
                       checked={subscribeNewsletter}
-                      onCheckedChange={setSubscribeNewsletter}
+                      onCheckedChange={(checked) => setSubscribeNewsletter(checked === "indeterminate" ? false : checked)}
                       className="border-2 border-gray-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 mt-1"
                     />
                     <Label htmlFor="newsletter" className="text-sm text-gray-600 cursor-pointer leading-relaxed">

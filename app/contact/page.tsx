@@ -57,7 +57,7 @@ export default function ContactPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Store className="h-8 w-8 text-primary" />
-                <h1 className="text-2xl font-bold text-primary">BrandOffers</h1>
+                <h1 className="text-2xl font-bold text-primary">FindMyDeals</h1>
               </div>
               <div className="flex items-center space-x-2">
                 <Button variant="outline" asChild>
@@ -102,7 +102,7 @@ export default function ContactPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Store className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-primary">BrandOffers</h1>
+              <h1 className="text-2xl font-bold text-primary">FindMyDeals</h1>
             </div>
             <nav className="hidden md:flex items-center space-x-6">
               <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
