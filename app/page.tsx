@@ -301,7 +301,7 @@ export default function HomePage() {
             {/* Right Side Actions */}
             <div className="flex items-center space-x-2 sm:space-x-3">
               {/* Notifications - Hidden on mobile */}
-              <Button
+              {/* <Button
                 variant="ghost"
                 size="sm"
                 className="relative hover:bg-blue-50 transition-colors duration-300 hidden sm:flex"
@@ -310,7 +310,7 @@ export default function HomePage() {
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center text-[10px] sm:text-xs">
                   3
                 </span>
-              </Button>
+              </Button> */}
 
               {/* Customer Login - Hidden on small mobile */}
               <Button
