@@ -5,6 +5,8 @@ import './globals.css'
 import { Providers } from '@/components/providers'
 import NextTopLoader from 'nextjs-toploader'
 import Header from '@/components/header'
+import { Suspense } from 'react'
+import { PageLoader } from '@/components/ui/loader'
 
 
 export const metadata: Metadata = {
@@ -30,6 +32,7 @@ html {
         `}</style>
       </head>
       <body>
+        <Suspense fallback={<PageLoader/>}>
         <Header/>
         <NextTopLoader
           color="#10b981"
@@ -44,6 +47,7 @@ html {
         <Providers>
           {children}
         </Providers>
+        </Suspense>
       </body>
     </html>
   )
