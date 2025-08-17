@@ -119,6 +119,7 @@ export default function HelpPage() {
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Help Center</h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Find answers to common questions and get the help you need to make the most of FindMyDeals.
+            Find answers to common questions and get the help you need to make the most of FindMyDeals.
           </p>
 
           {/* Search Bar */}
@@ -136,6 +137,7 @@ export default function HelpPage() {
             <CardHeader className="text-center">
               <Book className="h-8 w-8 text-primary mx-auto mb-2" />
               <CardTitle className="text-lg">Getting Started</CardTitle>
+              <CardDescription>Learn the basics of using FindMyDeals</CardDescription>
               <CardDescription>Learn the basics of using FindMyDeals</CardDescription>
             </CardHeader>
           </Card>

@@ -73,7 +73,7 @@ export default function PricingPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Store className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-primary">BrandOffers</h1>
+              <h1 className="text-2xl font-bold text-primary">FindMyDeals</h1>
             </div>
             <nav className="hidden md:flex items-center space-x-6">
               <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
@@ -302,7 +302,7 @@ export default function PricingPage() {
         <div className="container mx-auto px-4 text-center">
           <h3 className="text-3xl font-bold mb-4">Ready to Get Started?</h3>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of brands already using BrandOffers to connect with customers and grow their business.
+            Join thousands of brands already using FindMyDeals to connect with customers and grow their business.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>

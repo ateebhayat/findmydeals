@@ -1,4 +1,4 @@
-# BrandOffers Platform - Complete API Documentation
+# FindMyDeals Platform - Complete API Documentation
 
 ## Table of Contents
 1. [Authentication APIs](#authentication-apis)
@@ -62,7 +62,7 @@
   },
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "refreshToken": "refresh_token_here",
-  "message": "Account created successfully! Welcome to BrandOffers!"
+  "message": "Account created successfully! Welcome to FindMyDeals!"
 }
 \`\`\`
 
@@ -1076,7 +1076,7 @@
         "id": "activity_789",
         "type": "achievement",
         "title": "Reached Gold membership level",
-        "brand": "BrandOffers",
+        "brand": "FindMyDeals",
         "timestamp": "2024-07-25T10:15:00Z",
         "icon": "award",
         "color": "yellow"
@@ -2819,4 +2819,4 @@ The platform supports webhooks for real-time notifications:
 
 ---
 
-This comprehensive API documentation covers all the endpoints needed for the BrandOffers platform, including authentication, offers management, user interactions, analytics, and administrative functions.
+This comprehensive API documentation covers all the endpoints needed for the FindMyDeals platform, including authentication, offers management, user interactions, analytics, and administrative functions.
