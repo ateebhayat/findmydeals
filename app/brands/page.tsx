@@ -7,7 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Store, Search, MapPin, Globe, Star, ExternalLink, Users, TrendingUp, Filter, ArrowRight } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useAuth } from "@/context/AuthContext"
+import { useBrands } from "@/hooks/useApi"
 
 const brands = [
   {
@@ -119,67 +121,22 @@ export default function BrandsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [sortBy, setSortBy] = useState("newest")
+  const { user, isAuthenticated } = useAuth()
+
+  // React Query hook
+  const { data: brandsData, isLoading, error } = useBrands({
+    search: searchQuery || undefined,
+    category: selectedCategory !== "all" ? selectedCategory : undefined,
+    sort: sortBy,
+  })
+
+  // Extract data with fallback
+  const brandsList = brandsData?.data?.brands || brands
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-3">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl transform group-hover:scale-110 transition-transform duration-300">
-                  <Store className="h-6 w-6 text-white" />
-                </div>
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                FindMyDeals
-              </span>
-            </Link>
-
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium">
-                Home
-              </Link>
-              <Link
-                href="/categories"
-                className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium"
-              >
-                Categories
-              </Link>
-              <Link href="/brands" className="text-blue-600 font-semibold">
-                Brands
-              </Link>
-              <Link
-                href="/offers"
-                className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium"
-              >
-                All Offers
-              </Link>
-            </nav>
-
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="outline"
-                className="border-gray-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent"
-                asChild
-              >
-                <Link href="/auth/customer/login">Customer Login</Link>
-              </Button>
-              <Button
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
-                asChild
-              >
-                <Link href="/auth/register">
-                  Register Brand
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      
 
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
@@ -295,7 +252,7 @@ export default function BrandsPage() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {brands.map((brand, index) => (
+                          {brandsList.map((brand: any, index: number) => (
               <Card
                 key={brand.id}
                 className="border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-white/80 backdrop-blur-sm animate-fade-in-up group overflow-hidden"

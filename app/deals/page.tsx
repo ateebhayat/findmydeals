@@ -28,6 +28,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { useAuth } from "@/context/AuthContext"
+import { useHotDeals } from "@/hooks/useApi"
 
 const hotDeals = [
   {
@@ -198,12 +200,23 @@ export default function HotDealsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [likedDeals, setLikedDeals] = useState<number[]>([])
   const [timeLeft, setTimeLeft] = useState<{ [key: number]: string }>({})
+  const { user, isAuthenticated } = useAuth()
+
+  // React Query hook
+  // const { data: dealsData, isLoading: dealsLoading, error: dealsError } = useHotDeals({
+  //   limit: 20,
+  //   category: searchQuery || undefined,
+  // })
+
+  // Extract data with fallback
+  const deals =hotDeals
+  // const isLoading = dealsLoading
 
   // Update countdown timers
   useEffect(() => {
     const updateTimers = () => {
       const newTimeLeft: { [key: number]: string } = {}
-      hotDeals.forEach((deal) => {
+      deals.forEach((deal) => {
         const now = new Date().getTime()
         const endTime = new Date(deal.validUntil).getTime()
         const difference = endTime - now
@@ -231,7 +244,7 @@ export default function HotDealsPage() {
     const interval = setInterval(updateTimers, 60000) // Update every minute
 
     return () => clearInterval(interval)
-  }, [])
+  }, [deals])
 
   const handleLikeDeal = (dealId: number) => {
     setLikedDeals((prev) => (prev.includes(dealId) ? prev.filter((id) => id !== dealId) : [...prev, dealId]))
@@ -285,70 +298,7 @@ export default function HotDealsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-3">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-orange-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-gradient-to-r from-red-600 to-orange-600 p-2 rounded-xl transform group-hover:scale-110 transition-transform duration-300">
-                  <Store className="h-6 w-6 text-white" />
-                </div>
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
-                FindMyDeals
-              </span>
-            </Link>
-
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-gray-600 hover:text-red-600 transition-colors duration-300 font-medium">
-                Home
-              </Link>
-              <Link
-                href="/categories"
-                className="text-gray-600 hover:text-red-600 transition-colors duration-300 font-medium"
-              >
-                Categories
-              </Link>
-              <Link
-                href="/brands"
-                className="text-gray-600 hover:text-red-600 transition-colors duration-300 font-medium"
-              >
-                Brands
-              </Link>
-              <Link
-                href="/offers"
-                className="text-gray-600 hover:text-red-600 transition-colors duration-300 font-medium"
-              >
-                All Offers
-              </Link>
-              <Link href="/deals" className="text-red-600 font-semibold relative">
-                Hot Deals
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-2 h-2 animate-pulse"></span>
-              </Link>
-            </nav>
-
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="outline"
-                className="border-gray-200 hover:border-red-300 hover:bg-red-50 bg-transparent"
-                asChild
-              >
-                <Link href="/auth/customer/login">Customer Login</Link>
-              </Button>
-              <Button
-                className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
-                asChild
-              >
-                <Link href="/auth/register">
-                  Register Brand
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+    
 
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">

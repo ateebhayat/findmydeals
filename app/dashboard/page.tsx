@@ -20,6 +20,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import { useAuth } from "@/context/AuthContext"
 
 // Mock data for demonstration
 const mockBrand = {
@@ -66,7 +67,7 @@ const mockOffers = [
 
 export default function DashboardPage() {
   const [offers, setOffers] = useState(mockOffers)
-
+const {logout} = useAuth()
   const handleDeleteOffer = (offerId: number) => {
     setOffers(offers.filter((offer) => offer.id !== offerId))
   }
@@ -122,11 +123,8 @@ export default function DashboardPage() {
                       Settings
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Eye className="h-4 w-4 mr-2" />
-                    View Public Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="text-red-600">
+                  
+                  <DropdownMenuItem className="text-red-600" onClick={logout}>
                     <LogOut className="h-4 w-4 mr-2" />
                     Sign Out
                   </DropdownMenuItem>
@@ -257,12 +255,7 @@ export default function DashboardPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem asChild>
-                            <Link href={`/dashboard/offers/${offer.id}/edit`}>
-                              <Edit className="h-4 w-4 mr-2" />
-                              Edit
-                            </Link>
-                          </DropdownMenuItem>
+                          
                           <DropdownMenuItem onClick={() => handleToggleOffer(offer.id)}>
                             <Eye className="h-4 w-4 mr-2" />
                             {offer.isActive ? "Deactivate" : "Activate"}
@@ -349,14 +342,7 @@ export default function DashboardPage() {
                   <p className="text-sm font-medium text-gray-700">Email</p>
                   <p className="text-sm text-gray-600">{mockBrand.email}</p>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full border-blue-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent"
-                >
-                  <Edit className="h-4 w-4 mr-2" />
-                  Edit Profile
-                </Button>
+              
               </CardContent>
             </Card>
 

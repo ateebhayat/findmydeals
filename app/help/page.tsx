@@ -111,41 +111,14 @@ export default function HelpPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Store className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-primary">FindMyDeals</h1>
-            </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
-                Home
-              </Link>
-              <Link href="/categories" className="text-muted-foreground hover:text-primary transition-colors">
-                Categories
-              </Link>
-              <Link href="/brands" className="text-muted-foreground hover:text-primary transition-colors">
-                Brands
-              </Link>
-            </nav>
-            <div className="flex items-center space-x-2">
-              <Button variant="outline" asChild>
-                <Link href="/auth/login">Brand Login</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/auth/register">Register Brand</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+     
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary/10 to-secondary/10 py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Help Center</h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Find answers to common questions and get the help you need to make the most of FindMyDeals.
             Find answers to common questions and get the help you need to make the most of FindMyDeals.
           </p>
 
@@ -164,6 +137,7 @@ export default function HelpPage() {
             <CardHeader className="text-center">
               <Book className="h-8 w-8 text-primary mx-auto mb-2" />
               <CardTitle className="text-lg">Getting Started</CardTitle>
+              <CardDescription>Learn the basics of using FindMyDeals</CardDescription>
               <CardDescription>Learn the basics of using FindMyDeals</CardDescription>
             </CardHeader>
           </Card>
@@ -240,7 +214,7 @@ export default function HelpPage() {
                   </Link>
                 </Button>
                 <Button variant="outline" asChild>
-                  <Link href="mailto:support@brandoffers.com">
+                  <Link href="mailto:support@FindMyDeals.com">
                     <MessageCircle className="h-4 w-4 mr-2" />
                     Email Us
                   </Link>

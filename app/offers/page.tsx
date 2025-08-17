@@ -197,70 +197,14 @@ export default function OffersPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-3">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl transform group-hover:scale-110 transition-transform duration-300">
-                  <Store className="h-6 w-6 text-white" />
-                </div>
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                FindMyDeals
-              </span>
-            </Link>
-
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium">
-                Home
-              </Link>
-              <Link
-                href="/categories"
-                className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium"
-              >
-                Categories
-              </Link>
-              <Link
-                href="/brands"
-                className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium"
-              >
-                Brands
-              </Link>
-              <Link href="/offers" className="text-blue-600 font-semibold">
-                All Offers
-              </Link>
-            </nav>
-
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="outline"
-                className="border-gray-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent"
-                asChild
-              >
-                <Link href="/auth/customer/login">Customer Login</Link>
-              </Button>
-              <Button
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
-                asChild
-              >
-                <Link href="/auth/register">
-                  Register Brand
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      
 
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-full h-full">
-            <div className="absolute top-20 left-10 w-96 h-96 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+            <div className="absolute top-20 left-10 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
             <div className="absolute top-40 right-10 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
             <div className="absolute -bottom-8 left-20 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
           </div>
@@ -269,7 +213,7 @@ export default function OffersPage() {
         <div className="container mx-auto px-4 text-center relative">
           <div className="max-w-4xl mx-auto animate-fade-in-up">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Exclusive Offers
               </span>
               <br />
@@ -280,31 +224,7 @@ export default function OffersPage() {
             </p>
 
             {/* Stats */}
-            <div
-              className="grid grid-cols-2 md:grid-cols-4 gap-8 animate-fade-in-up"
-              style={{ animationDelay: "200ms" }}
-            >
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">{offers.length}+</div>
-                <div className="text-gray-600">Active Offers</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">
-                  {offers.reduce((sum, offer) => sum + offer.claims, 0)}+
-                </div>
-                <div className="text-gray-600">Claims Made</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-purple-600 mb-2">
-                  {offers.reduce((sum, offer) => sum + offer.views, 0).toLocaleString()}+
-                </div>
-                <div className="text-gray-600">Total Views</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-pink-600 mb-2">70%</div>
-                <div className="text-gray-600">Max Savings</div>
-              </div>
-            </div>
+            
           </div>
         </div>
       </section>
@@ -417,7 +337,7 @@ export default function OffersPage() {
                   <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2">
                       <div className="text-xs text-gray-500 line-through">${offer.originalPrice}</div>
-                      <div className="text-sm font-bold text-green-600">${offer.discountedPrice}</div>
+                      <div className="text-sm font-bold text-purple-600">${offer.discountedPrice}</div>
                     </div>
                   </div>
                 </div>
@@ -503,7 +423,7 @@ export default function OffersPage() {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
-                        className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-500"
+                        className="bg-gradient-to-r from-purple-500 to-blue-500 h-2 rounded-full transition-all duration-500"
                         style={{ width: `${getClaimPercentage(offer.claims, offer.maxClaims)}%` }}
                       ></div>
                     </div>
@@ -523,7 +443,7 @@ export default function OffersPage() {
 
                   {/* Action Button */}
                   <Button
-                    className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
+                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
                     asChild
                   >
                     <Link href={`/offers/${offer.id}`}>
@@ -552,7 +472,7 @@ export default function OffersPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="container mx-auto px-4 text-center relative">
           <div className="animate-fade-in-up">

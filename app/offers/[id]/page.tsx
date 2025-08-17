@@ -25,7 +25,9 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
+import { useRouter } from 'nextjs-toploader/app';
+
 
 // Mock data for demonstration
 const mockOffer = {
