@@ -130,7 +130,7 @@ export async function middleware(request: NextRequest) {
   // // Check if user is authenticated and valid
   const isAuthenticated = user && token
   
-  // // Handle authentication redirects for logged-in users
+  // Handle authentication redirects for logged-in users
   if (isAuthenticated) {
     console.log('Token is authenticated')
     // If user is trying to access auth pages while logged in, redirect to appropriate dashboard
@@ -144,18 +144,18 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
       }
     }
-  }
     
     // Check role-based access for protected routes
-    if (matchesPattern(pathname, CUSTOMER_ROUTES) && user?.type !== 'user') {
+    if (matchesPattern(pathname, CUSTOMER_ROUTES) && user.type !== 'user') {
       // Brand trying to access customer routes
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
 
-    if (matchesPattern(pathname, BRAND_ROUTES) && user?.type !== 'brand') {
-        // Customer trying to access brand routes
-        return NextResponse.redirect(new URL('/customer/dashboard', request.url))
-      }
+    if (matchesPattern(pathname, BRAND_ROUTES) && user.type !== 'brand') {
+      // Customer trying to access brand routes
+      return NextResponse.redirect(new URL('/customer/dashboard', request.url))
+    }
+  }
   
   // // Handle unauthenticated users
   if (!isAuthenticated) {

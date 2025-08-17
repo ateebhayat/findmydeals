@@ -159,11 +159,11 @@ console.log({registrationPending})
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-cyan-50 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-cyan-50 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+          <div className="absolute top-20 left-10 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
           <div className="absolute top-40 right-10 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
           <div className="absolute -bottom-8 left-20 w-96 h-96 bg-cyan-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
         </div>
@@ -175,18 +175,18 @@ console.log({registrationPending})
           <div className="space-y-6">
             <Link href="/" className="flex items-center space-x-3">
               <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-gradient-to-r from-green-600 to-blue-600 p-3 rounded-xl transform group-hover:scale-110 transition-transform duration-300">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative bg-gradient-to-r from-purple-600 to-blue-600 p-3 rounded-xl transform group-hover:scale-110 transition-transform duration-300">
                   <Store className="h-8 w-8 text-white" />
                 </div>
               </div>
-              <span className="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">BrandOffers</span>
+              <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">BrandOffers</span>
             </Link>
 
             <div className="space-y-4">
               <h1 className="text-5xl font-bold text-gray-900 leading-tight">
                 Join the
-                <span className="block bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">Smart Shopping</span>
+                <span className="block bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Smart Shopping</span>
                 Revolution
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed">Create your free account and start saving money with exclusive deals from top brands.</p>
@@ -196,7 +196,7 @@ console.log({registrationPending})
           {/* Features */}
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
-              <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-3 rounded-xl shadow-lg">
+              <div className="bg-gradient-to-r from-purple-500 to-emerald-500 p-3 rounded-xl shadow-lg">
                 <Gift className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -232,12 +232,12 @@ console.log({registrationPending})
               <div className="lg:hidden">
                 <Link href="/" className="flex items-center justify-center space-x-3 mb-6">
                   <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div className="relative bg-gradient-to-r from-green-600 to-blue-600 p-2 rounded-xl">
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="relative bg-gradient-to-r from-purple-600 to-blue-600 p-2 rounded-xl">
                       <Store className="h-6 w-6 text-white" />
                     </div>
                   </div>
-                  <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">BrandOffers</span>
+                  <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">BrandOffers</span>
                 </Link>
               </div>
               <CardTitle className="text-3xl font-bold text-gray-900">Create Account</CardTitle>
@@ -260,7 +260,7 @@ console.log({registrationPending})
                         value={formData.firstName}
                         onChange={e => handleInputChange('firstName', e.target.value)}
                         className={`pl-10 border-2 ${
-                          errors.firstName ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-green-500'
+                          errors.firstName ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-purple-500'
                         } focus:ring-0 transition-all duration-300 hover:border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm rounded-xl h-12`}
                         required
                       />
@@ -281,7 +281,7 @@ console.log({registrationPending})
                         value={formData.lastName}
                         onChange={e => handleInputChange('lastName', e.target.value)}
                         className={`pl-10 border-2 ${
-                          errors.lastName ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-green-500'
+                          errors.lastName ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-purple-500'
                         } focus:ring-0 transition-all duration-300 hover:border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm rounded-xl h-12`}
                         required
                       />
@@ -303,7 +303,7 @@ console.log({registrationPending})
                       value={formData.email}
                       onChange={e => handleInputChange('email', e.target.value)}
                       className={`pl-10 border-2 ${
-                        errors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-green-500'
+                        errors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-purple-500'
                       } focus:ring-0 transition-all duration-300 hover:border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm rounded-xl h-12`}
                       required
                     />
@@ -324,7 +324,7 @@ console.log({registrationPending})
                       value={formData.phone}
                       onChange={e => handleInputChange('phone', e.target.value)}
                       className={`pl-10 border-2 ${
-                        errors.phone ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-green-500'
+                        errors.phone ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-purple-500'
                       } focus:ring-0 transition-all duration-300 hover:border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm rounded-xl h-12`}
                     />
                   </div>
@@ -345,7 +345,7 @@ console.log({registrationPending})
                         value={formData.password}
                         onChange={e => handleInputChange('password', e.target.value)}
                         className={`pl-10 pr-10 border-2 ${
-                          errors.password ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-green-500'
+                          errors.password ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-purple-500'
                         } focus:ring-0 transition-all duration-300 hover:border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm rounded-xl h-12`}
                         required
                       />
@@ -373,7 +373,7 @@ console.log({registrationPending})
                         value={formData.confirmPassword}
                         onChange={e => handleInputChange('confirmPassword', e.target.value)}
                         className={`pl-10 pr-10 border-2 ${
-                          errors.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-green-500'
+                          errors.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-purple-500'
                         } focus:ring-0 transition-all duration-300 hover:border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm rounded-xl h-12`}
                         required
                       />
@@ -397,15 +397,15 @@ console.log({registrationPending})
                       onCheckedChange={checked => handleInputChange('agreeToTerms', checked === 'indeterminate' ? false : checked)}
                       className={`border-2 ${
                         errors.agreeToTerms ? 'border-red-500' : 'border-gray-300'
-                      } data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600 mt-1`}
+                      } data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600 mt-1`}
                     />
                     <Label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer leading-relaxed">
                       I agree to the{' '}
-                      <Link href="/terms" className="text-green-600 hover:text-green-700 font-medium">
+                      <Link href="/terms" className="text-purple-600 hover:text-purple-700 font-medium">
                         Terms of Service
                       </Link>{' '}
                       and{' '}
-                      <Link href="/privacy" className="text-green-600 hover:text-green-700 font-medium">
+                      <Link href="/privacy" className="text-purple-600 hover:text-purple-700 font-medium">
                         Privacy Policy
                       </Link>
                     </Label>
@@ -428,7 +428,7 @@ console.log({registrationPending})
                 <Button
                   type="submit"
                   disabled={registrationPending || !formData.agreeToTerms || isValidating}
-                  className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 h-12 text-lg font-semibold hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 h-12 text-lg font-semibold hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {registrationPending ? (
                     <div className="flex items-center space-x-2">
@@ -486,7 +486,7 @@ console.log({registrationPending})
               <div className="text-center">
                 <p className="text-gray-600">
                   Already have an account?{' '}
-                  <Link href="/auth/customer/login" className="text-green-600 hover:text-green-700 font-semibold transition-colors duration-300">
+                  <Link href="/auth/customer/login" className="text-purple-600 hover:text-purple-700 font-semibold transition-colors duration-300">
                     Sign in here
                   </Link>
                 </p>

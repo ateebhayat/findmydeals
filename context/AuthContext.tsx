@@ -1,7 +1,10 @@
+'use client'
 import { useState, useEffect, createContext, useContext } from "react"
 import { apiClient, ApiResponse } from "@/lib/api-client"
-import { useCustomerLogin, useCustomerRegister } from "../hooks/useApi"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useBrandLogin, useCustomerLogin, useCustomerRegister } from "../hooks/useApi"
+import { useSearchParams } from "next/navigation"
+import { useRouter } from 'nextjs-toploader/app';
+
 import { setAuthCookies, clearAuthCookies, getAuthTokens } from "@/lib/cookie-utils"
 
 interface User {
@@ -69,46 +72,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const registerMutation = useCustomerRegister();
   const router = useRouter();
   const loginMutation = useCustomerLogin();
+  const brandLogin = useBrandLogin();
+
   const searchParams = useSearchParams()
   const redirectUrl = searchParams.get("redirect")
-
-  useEffect(() => {
-    // Check for existing tokens on mount
-    const checkAuth = async () => {
-      try {
-        const { accessToken } = getAuthTokens()
-        if (accessToken) {
-          // Try to get user dashboard to verify token
-          const response = await apiClient.getCustomerDashboard()
-          if (response.success && response.data?.user) {
-            setUser(response.data.user)
-            setUserType("user")
-          } else {
-            // Try brand dashboard
-            const brandResponse = await apiClient.getBrands({ limit: 1 })
-            if (brandResponse.success) {
-              // This is a simplified check - in a real app you'd have a brand dashboard endpoint
-              setUserType("brand")
-            } else {
-              // Token is invalid, clear it
-              clearAuthCookies()
-              localStorage.removeItem("accessToken")
-              localStorage.removeItem("refreshToken")
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Auth check failed:", error)
-        clearAuthCookies()
-        localStorage.removeItem("accessToken")
-        localStorage.removeItem("refreshToken")
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    checkAuth()
-  }, [])
 
   const login = async (email: string, password: string, type: "user" | "brand"): Promise<ApiResponse> => {
     try {
@@ -139,15 +106,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         );
       
       } else {
-        response = await apiClient.brandLogin({ email, password })
-        if (response.success && response.data?.brand) {
-          setBrand(response.data.brand)
-          setUserType("brand")
-          // Set both cookies and localStorage for backward compatibility
-          setAuthCookies(response.data.token, response.data.refreshToken)
-          localStorage.setItem("accessToken", response.data.token)
-          localStorage.setItem("refreshToken", response.data.refreshToken)
-        }
+        response = await brandLogin.mutateAsync(
+          { email, password },
+          {
+            onSuccess: (response:any) => {
+              console.log(response)
+              if (response.success) {
+                // Redirect
+                  setAuthCookies(response.data.accessToken, response.data.refreshToken)
+                  localStorage.setItem("accessToken", response.data.accessToken)
+                  localStorage.setItem("refreshToken", response.data.refreshToken)
+                if (redirectUrl) {
+                  router.push(redirectUrl);
+                } else {
+                  router.push("/dashboard");
+                }
+              }
+            },
+            onError: (error: any) => {
+              console.error("Login error:", error);
+              
+            },
+          }
+        );
       }
 
       return response
@@ -215,6 +196,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     clearAuthCookies()
     localStorage.removeItem("accessToken")
     localStorage.removeItem("refreshToken")
+    router.push("/")
   }
 
   const refreshUser = async () => {
@@ -241,8 +223,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     logout,
     refreshUser,
     registrationPending: registerMutation.isPending,
-    loginError: loginMutation.error,
-    loginPending: loginMutation.isPending,
+    loginError: loginMutation.error || brandLogin.error,
+    loginPending: loginMutation.isPending || brandLogin.isPending,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

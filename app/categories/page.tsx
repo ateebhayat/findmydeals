@@ -1,3 +1,4 @@
+'use client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -84,60 +85,17 @@ const categories = [
 ]
 
 export default function CategoriesPage() {
-  const { user, isAuthenticated } = useAuth()
+  // const { user, isAuthenticated } = useAuth()
 
   // React Query hook
   const { data: categoriesData, isLoading, error } = useCategories()
 
   // Extract data with fallback
-  const categoriesList = categoriesData?.data?.categories || categories
+  const categoriesList = categoriesData?.data?.categories ?? categories
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-75"></div>
-                <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl">
-                  <Store className="h-6 w-6 text-white" />
-                </div>
-              </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                BrandOffers
-              </h1>
-            </div>
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors">
-                Home
-              </Link>
-              <Link href="/categories" className="text-gray-900 font-medium hover:text-blue-600 transition-colors">
-                Categories
-              </Link>
-              <Link href="/brands" className="text-gray-600 hover:text-blue-600 transition-colors">
-                Brands
-              </Link>
-            </nav>
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="outline"
-                className="border-gray-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent"
-                asChild
-              >
-                <Link href="/auth/login">Brand Login</Link>
-              </Button>
-              <Button
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300"
-                asChild
-              >
-                <Link href="/auth/register">Register Brand</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      
 
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 lg:py-24">
@@ -188,7 +146,6 @@ export default function CategoriesPage() {
                   key={category.id}
                   className="group hover:shadow-2xl transition-all duration-500 border-0 shadow-lg hover:-translate-y-2 bg-white overflow-hidden"
                 >
-                  <Link href={`/categories/${category.id}`}>
                     <div className={`h-2 bg-gradient-to-r ${category.gradient}`}></div>
 
                     <CardHeader className="text-center pb-4 pt-8">
@@ -213,7 +170,6 @@ export default function CategoriesPage() {
                         {category.offerCount} offers
                       </Badge>
                     </CardContent>
-                  </Link>
                 </Card>
               )
             })}

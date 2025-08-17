@@ -1,10 +1,10 @@
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Store,
   Search,
@@ -25,423 +25,231 @@ import {
   ChevronRight,
   Bookmark,
   Share2,
-} from "lucide-react"
-import Link from "next/link"
-import { useState, useEffect } from "react"
-import { useAuth } from "@/context/AuthContext"
-import { useOffers, useHotDeals, useCategories } from "@/hooks/useApi"
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+} from 'lucide-react';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 // Enhanced mock data with more realistic content
 const featuredOffers = [
   {
     id: 1,
-    title: "50% Off Summer Collection",
-    description:
-      "Get 50% off on all summer clothing items including dresses, tops, shorts, and accessories. Limited time offer with free shipping on orders over $75!",
-    discount: "50%",
-    discountType: "percentage",
-    validUntil: "2024-08-31",
+    title: '50% Off Summer Collection',
+    description: 'Get 50% off on all summer clothing items including dresses, tops, shorts, and accessories. Limited time offer with free shipping on orders over $75!',
+    discount: '50%',
+    discountType: 'percentage',
+    validUntil: '2024-08-31',
     brand: {
       id: 1,
-      name: "Fashion Forward",
-      logo: "/placeholder.svg?height=40&width=40&text=FF",
+      name: 'Fashion Forward',
+      logo: '/placeholder.svg?height=40&width=40&text=FF',
       verified: true,
       rating: 4.8,
       totalReviews: 2340,
     },
-    image: "/placeholder.svg?height=300&width=400&text=Summer+Fashion+Collection",
-    category: "Fashion & Clothing",
+    image: '/placeholder.svg?height=300&width=400&text=Summer+Fashion+Collection',
+    category: 'Fashion & Clothing',
     views: 12500,
     claims: 890,
     maxClaims: 2000,
     trending: true,
-    location: "New York, NY",
+    location: 'New York, NY',
     originalPrice: 200,
     discountedPrice: 100,
-    tags: ["Summer", "Clothing", "Fashion", "Free Shipping"],
-    urgency: "high",
+    tags: ['Summer', 'Clothing', 'Fashion', 'Free Shipping'],
+    urgency: 'high',
     featured: true,
-    savings: "$2.1M",
+    savings: '$2.1M',
   },
   {
     id: 2,
-    title: "Free Premium Shipping + 20% Off Electronics",
-    description:
-      "Enjoy free premium shipping on all electronics plus an additional 20% off. Perfect for upgrading your tech setup with the latest gadgets.",
-    discount: "20%",
-    discountType: "percentage",
-    validUntil: "2024-07-28",
+    title: 'Free Premium Shipping + 20% Off Electronics',
+    description: 'Enjoy free premium shipping on all electronics plus an additional 20% off. Perfect for upgrading your tech setup with the latest gadgets.',
+    discount: '20%',
+    discountType: 'percentage',
+    validUntil: '2024-07-28',
     brand: {
       id: 2,
-      name: "TechHub Pro",
-      logo: "/placeholder.svg?height=40&width=40&text=TH",
+      name: 'TechHub Pro',
+      logo: '/placeholder.svg?height=40&width=40&text=TH',
       verified: true,
       rating: 4.7,
       totalReviews: 1890,
     },
-    image: "/placeholder.svg?height=300&width=400&text=Electronics+Sale",
-    category: "Electronics & Tech",
+    image: '/placeholder.svg?height=300&width=400&text=Electronics+Sale',
+    category: 'Electronics & Tech',
     views: 8900,
     claims: 456,
     maxClaims: 1000,
     trending: false,
-    location: "San Francisco, CA",
+    location: 'San Francisco, CA',
     originalPrice: 500,
     discountedPrice: 400,
-    tags: ["Electronics", "Tech", "Free Shipping", "Premium"],
-    urgency: "medium",
+    tags: ['Electronics', 'Tech', 'Free Shipping', 'Premium'],
+    urgency: 'medium',
     featured: true,
-    savings: "$890K",
+    savings: '$890K',
   },
   {
     id: 3,
-    title: "Buy 2 Get 1 Free Gourmet Coffee",
-    description:
-      "Purchase any two premium coffee blends and get the third one absolutely free. Includes our award-winning single-origin beans from around the world.",
-    discount: "33%",
-    discountType: "bogo",
-    validUntil: "2024-08-15",
+    title: 'Buy 2 Get 1 Free Gourmet Coffee',
+    description: 'Purchase any two premium coffee blends and get the third one absolutely free. Includes our award-winning single-origin beans from around the world.',
+    discount: '33%',
+    discountType: 'bogo',
+    validUntil: '2024-08-15',
     brand: {
       id: 3,
-      name: "Artisan Brew Co.",
-      logo: "/placeholder.svg?height=40&width=40&text=AB",
+      name: 'Artisan Brew Co.',
+      logo: '/placeholder.svg?height=40&width=40&text=AB',
       verified: true,
       rating: 4.9,
       totalReviews: 3450,
     },
-    image: "/placeholder.svg?height=300&width=400&text=Gourmet+Coffee+Beans",
-    category: "Food & Beverage",
+    image: '/placeholder.svg?height=300&width=400&text=Gourmet+Coffee+Beans',
+    category: 'Food & Beverage',
     views: 5670,
     claims: 234,
     maxClaims: 500,
     trending: true,
-    location: "Portland, OR",
+    location: 'Portland, OR',
     originalPrice: 45,
     discountedPrice: 30,
-    tags: ["Coffee", "Gourmet", "Buy 2 Get 1", "Premium"],
-    urgency: "low",
+    tags: ['Coffee', 'Gourmet', 'Buy 2 Get 1', 'Premium'],
+    urgency: 'low',
     featured: true,
-    savings: "$156K",
+    savings: '$156K',
   },
-]
+];
 
 const categories = [
   {
-    name: "Fashion",
-    icon: "👗",
+    name: 'Fashion',
+    icon: '👗',
     count: 2450,
-    color: "from-pink-500 to-rose-500",
-    description: "Clothing, accessories, and style",
+    color: 'from-pink-500 to-rose-500',
+    description: 'Clothing, accessories, and style',
     trending: true,
   },
   {
-    name: "Electronics",
-    icon: "📱",
+    name: 'Electronics',
+    icon: '📱',
     count: 1890,
-    color: "from-blue-500 to-cyan-500",
-    description: "Gadgets, tech, and devices",
+    color: 'from-blue-500 to-cyan-500',
+    description: 'Gadgets, tech, and devices',
     trending: true,
   },
   {
-    name: "Beauty",
-    icon: "💄",
+    name: 'Beauty',
+    icon: '💄',
     count: 1560,
-    color: "from-purple-500 to-pink-500",
-    description: "Skincare, makeup, and wellness",
+    color: 'from-purple-500 to-pink-500',
+    description: 'Skincare, makeup, and wellness',
     trending: false,
   },
   {
-    name: "Food",
-    icon: "🍕",
+    name: 'Food',
+    icon: '🍕',
     count: 1340,
-    color: "from-orange-500 to-red-500",
-    description: "Restaurants, groceries, and treats",
+    color: 'from-orange-500 to-red-500',
+    description: 'Restaurants, groceries, and treats',
     trending: true,
   },
   {
-    name: "Travel",
-    icon: "✈️",
+    name: 'Travel',
+    icon: '✈️',
     count: 980,
-    color: "from-green-500 to-teal-500",
-    description: "Hotels, flights, and experiences",
+    color: 'from-green-500 to-teal-500',
+    description: 'Hotels, flights, and experiences',
     trending: false,
   },
   {
-    name: "Health",
-    icon: "🏥",
+    name: 'Health',
+    icon: '🏥',
     count: 870,
-    color: "from-emerald-500 to-green-500",
-    description: "Fitness, supplements, and care",
+    color: 'from-emerald-500 to-green-500',
+    description: 'Fitness, supplements, and care',
     trending: false,
   },
-]
+];
 
 const testimonials = [
   {
     id: 1,
-    name: "Sarah Johnson",
-    avatar: "/placeholder.svg?height=60&width=60&text=SJ",
-    role: "Fashion Enthusiast",
-    content:
-      "I've saved over $2,000 this year using BrandOffers! The deals are incredible and the platform is so easy to use.",
+    name: 'Sarah Johnson',
+    avatar: '/placeholder.svg?height=60&width=60&text=SJ',
+    role: 'Fashion Enthusiast',
+    content: "I've saved over $2,000 this year using FindMyDeals! The deals are incredible and the platform is so easy to use.",
     rating: 5,
-    savings: "$2,156",
+    savings: '$2,156',
   },
   {
     id: 2,
-    name: "Mike Chen",
-    avatar: "/placeholder.svg?height=60&width=60&text=MC",
-    role: "Tech Professional",
-    content: "Found amazing deals on electronics here. The verification system gives me confidence in every purchase.",
+    name: 'Mike Chen',
+    avatar: '/placeholder.svg?height=60&width=60&text=MC',
+    role: 'Tech Professional',
+    content: 'Found amazing deals on electronics here. The verification system gives me confidence in every purchase.',
     rating: 5,
-    savings: "$1,890",
+    savings: '$1,890',
   },
   {
     id: 3,
-    name: "Emily Rodriguez",
-    avatar: "/placeholder.svg?height=60&width=60&text=ER",
-    role: "Small Business Owner",
-    content: "As a brand owner, this platform has helped us reach thousands of new customers. Highly recommended!",
+    name: 'Emily Rodriguez',
+    avatar: '/placeholder.svg?height=60&width=60&text=ER',
+    role: 'Small Business Owner',
+    content: 'As a brand owner, this platform has helped us reach thousands of new customers. Highly recommended!',
     rating: 5,
-    savings: "$5,670",
+    savings: '$5,670',
   },
-]
+];
 
 export default function HomePage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [isSearchFocused, setIsSearchFocused] = useState(false)
-  const [likedOffers, setLikedOffers] = useState<number[]>([])
-  const [bookmarkedOffers, setBookmarkedOffers] = useState<number[]>([])
-  const [currentTestimonial, setCurrentTestimonial] = useState(0)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { user, isAuthenticated } = useAuth()
-
-  // React Query hooks
-  const { data: offersData, isLoading: offersLoading, error: offersError } = useOffers({ 
-    limit: 6, 
-    sort: "trending"
-  })
-  
-  const { data: hotDealsData, isLoading: hotDealsLoading, error: hotDealsError } = useHotDeals({ 
-    limit: 3 
-  })
-  
-  const { data: categoriesData, isLoading: categoriesLoading, error: categoriesError } = useCategories()
-
-  // Extract data with fallbacks
-  const offers = offersData?.data?.offers || featuredOffers
-  const hotDeals = hotDealsData?.data?.deals || []
-  const categories = categoriesData?.data?.categories || []
-  const isLoading = offersLoading || hotDealsLoading || categoriesLoading
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [likedOffers, setLikedOffers] = useState<number[]>([]);
+  const [bookmarkedOffers, setBookmarkedOffers] = useState<number[]>([]);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Auto-rotate testimonials
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [])
+      setCurrentTestimonial(prev => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleLikeOffer = (offerId: number) => {
-    setLikedOffers((prev) => (prev.includes(offerId) ? prev.filter((id) => id !== offerId) : [...prev, offerId]))
-  }
+    setLikedOffers(prev => (prev.includes(offerId) ? prev.filter(id => id !== offerId) : [...prev, offerId]));
+  };
 
   const handleBookmarkOffer = (offerId: number) => {
-    setBookmarkedOffers((prev) => (prev.includes(offerId) ? prev.filter((id) => id !== offerId) : [...prev, offerId]))
-  }
+    setBookmarkedOffers(prev => (prev.includes(offerId) ? prev.filter(id => id !== offerId) : [...prev, offerId]));
+  };
 
   const getDaysLeft = (validUntil: string) => {
-    const days = Math.ceil((new Date(validUntil).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
-    return Math.max(0, days)
-  }
+    const days = Math.ceil((new Date(validUntil).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+    return Math.max(0, days);
+  };
 
   const getUrgencyColor = (urgency: string) => {
     switch (urgency) {
-      case "high":
-        return "from-red-500 to-orange-500"
-      case "medium":
-        return "from-yellow-500 to-orange-500"
-      case "low":
-        return "from-green-500 to-emerald-500"
+      case 'high':
+        return 'from-red-500 to-orange-500';
+      case 'medium':
+        return 'from-yellow-500 to-orange-500';
+      case 'low':
+        return 'from-green-500 to-emerald-500';
       default:
-        return "from-blue-500 to-purple-500"
+        return 'from-blue-500 to-purple-500';
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Enhanced Responsive Header with Mobile Menu */}
-      <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <Link href="/" className="flex items-center space-x-3">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl transform group-hover:scale-110 transition-transform duration-300">
-                  <Store className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                </div>
-              </div>
-              <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                FindMyDeals
-              </span>
-            </Link>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-              <Link href="/" className="text-blue-600 font-semibold text-sm xl:text-base">
-                Home
-              </Link>
-              <Link
-                href="/categories"
-                className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium text-sm xl:text-base"
-              >
-                Categories
-              </Link>
-              <Link
-                href="/brands"
-                className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium text-sm xl:text-base"
-              >
-                Brands
-              </Link>
-              <Link
-                href="/offers"
-                className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium text-sm xl:text-base"
-              >
-                All Offers
-              </Link>
-              <Link
-                href="/deals"
-                className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium relative text-sm xl:text-base"
-              >
-                Hot Deals
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-2 h-2 animate-pulse"></span>
-              </Link>
-            </nav>
-
-            {/* Right Side Actions */}
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              {/* Notifications - Hidden on mobile */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="relative hover:bg-blue-50 transition-colors duration-300 hidden sm:flex"
-              >
-                <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center text-[10px] sm:text-xs">
-                  3
-                </span>
-              </Button>
-
-              {/* Customer Login - Hidden on small mobile */}
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-gray-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent hidden md:flex text-xs lg:text-sm px-2 lg:px-4"
-                asChild
-              >
-                <Link href="/auth/customer/login">Customer Login</Link>
-              </Button>
-
-              {/* Brand Login */}
-              <Button
-                size="sm"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform text-xs lg:text-sm px-3 lg:px-4"
-                asChild
-              >
-                <Link href="/auth/login">
-                  <span className="hidden sm:inline">Brand Login</span>
-                  <span className="sm:hidden">Login</span>
-                </Link>
-              </Button>
-
-              {/* Mobile Menu Button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="lg:hidden p-2"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                <div className="w-5 h-5 flex flex-col justify-center items-center">
-                  <span
-                    className={`bg-gray-600 block transition-all duration-300 ease-out h-0.5 w-5 rounded-sm ${mobileMenuOpen ? "rotate-45 translate-y-1" : "-translate-y-0.5"}`}
-                  ></span>
-                  <span
-                    className={`bg-gray-600 block transition-all duration-300 ease-out h-0.5 w-5 rounded-sm my-0.5 ${mobileMenuOpen ? "opacity-0" : "opacity-100"}`}
-                  ></span>
-                  <span
-                    className={`bg-gray-600 block transition-all duration-300 ease-out h-0.5 w-5 rounded-sm ${mobileMenuOpen ? "-rotate-45 -translate-y-1" : "translate-y-0.5"}`}
-                  ></span>
-                </div>
-              </Button>
-            </div>
-          </div>
-
-          {/* Mobile Menu */}
-          <div
-            className={`lg:hidden transition-all duration-300 ease-in-out ${mobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"} overflow-hidden`}
-          >
-            <div className="py-4 space-y-3 border-t border-gray-100 mt-4">
-              <Link
-                href="/"
-                className="block px-4 py-2 text-blue-600 font-semibold bg-blue-50 rounded-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/categories"
-                className="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors duration-300"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Categories
-              </Link>
-              <Link
-                href="/brands"
-                className="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors duration-300"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Brands
-              </Link>
-              <Link
-                href="/offers"
-                className="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors duration-300"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                All Offers
-              </Link>
-              <Link
-                href="/deals"
-                className="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors duration-300 relative"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Hot Deals
-                <span className="absolute top-2 right-4 bg-red-500 text-white text-xs rounded-full w-2 h-2 animate-pulse"></span>
-              </Link>
-
-              {/* Mobile-only links */}
-              <div className="border-t border-gray-100 pt-3 mt-3 space-y-3">
-                <Link
-                  href="/auth/customer/login"
-                  className="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors duration-300 md:hidden"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Customer Login
-                </Link>
-                <div className="px-4 py-2 flex items-center justify-between sm:hidden">
-                  <span className="text-gray-600">Notifications</span>
-                  <div className="relative">
-                    <Bell className="h-5 w-5 text-gray-600" />
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
-                      3
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Enhanced Hero Section */}
       <section className="relative py-20 overflow-hidden">
@@ -457,34 +265,28 @@ export default function HomePage() {
         <div className="container mx-auto px-4 relative">
           <div className="text-center max-w-4xl mx-auto animate-fade-in-up">
             <div className="mb-6">
-              <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 text-sm font-medium animate-pulse">
-                🚀 Join smart shoppers saving daily!
-              </Badge>
+              <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 text-sm font-medium animate-pulse">🚀 Join smart shoppers saving daily!</Badge>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Discover Amazing
-              </span>
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Discover Amazing</span>
               <br />
-              <span className="text-gray-900">Brand Offers</span>
+              <span className="text-gray-900">Deals and Offers</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed">
               Connect with your favorite brands and unlock exclusive deals, discounts, and offers tailored just for you.
-              <span className="block mt-2 text-lg text-blue-600 font-medium">
-                Join 500,000+ smart shoppers saving money daily!
-              </span>
+              <span className="block mt-2 text-lg text-blue-600 font-medium">Join 500,000+ smart shoppers saving money daily!</span>
             </p>
 
             {/* Enhanced Search Bar */}
-            <div className="max-w-2xl mx-auto mb-12 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
-              <div className={`relative group transition-all duration-300 ${isSearchFocused ? "scale-105" : ""}`}>
+            <div className="max-w-2xl mx-auto mb-12 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+              <div className={`relative group transition-all duration-300 ${isSearchFocused ? 'scale-105' : ''}`}>
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-6 w-6 group-focus-within:text-blue-500 transition-colors duration-300" />
                 <Input
                   type="text"
                   placeholder="Search for brands, offers, or categories..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
                   onBlur={() => setIsSearchFocused(false)}
                   className="pl-12 pr-20 py-4 text-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all duration-300 hover:border-gray-300 bg-white/80 backdrop-blur-sm shadow-lg rounded-2xl h-16"
@@ -504,11 +306,8 @@ export default function HomePage() {
                 <div className="absolute top-full left-0 right-0 mt-2 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-xl z-10 animate-fade-in-up">
                   <div className="p-4 space-y-2">
                     <div className="text-sm text-gray-500 font-medium">Popular searches</div>
-                    {["Fashion deals", "Electronics sale", "Food delivery", "Travel offers"].map((suggestion) => (
-                      <div
-                        key={suggestion}
-                        className="flex items-center space-x-2 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors duration-200"
-                      >
+                    {['Fashion deals', 'Electronics sale', 'Food delivery', 'Travel offers'].map(suggestion => (
+                      <div key={suggestion} className="flex items-center space-x-2 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors duration-200">
                         <Search className="w-4 h-4 text-gray-400" />
                         <span className="text-gray-700">{suggestion}</span>
                       </div>
@@ -519,7 +318,7 @@ export default function HomePage() {
             </div>
 
             {/* Enhanced Stats */}
-            <div
+            {/* <div
               className="grid grid-cols-2 md:grid-cols-4 gap-8 animate-fade-in-up"
               style={{ animationDelay: "400ms" }}
             >
@@ -551,7 +350,7 @@ export default function HomePage() {
                 <div className="text-gray-600">Savings Generated</div>
                 <div className="text-xs text-green-600 font-medium">This month alone!</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -564,11 +363,8 @@ export default function HomePage() {
             <p className="text-xl text-gray-600">Find offers from your favorite categories</p>
           </div>
 
-          <div
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 animate-fade-in-up"
-            style={{ animationDelay: "200ms" }}
-          >
-                            {categories.map((category: any, index: number) => (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+            {categories.map((category, index) => (
               <Card
                 key={category.name}
                 className="border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer bg-white/80 backdrop-blur-sm group overflow-hidden"
@@ -577,9 +373,7 @@ export default function HomePage() {
                 <CardContent className="p-6 text-center relative">
                   {category.trending && (
                     <div className="absolute top-2 right-2">
-                      <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs animate-pulse">
-                        Hot
-                      </Badge>
+                      <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs animate-pulse">Hot</Badge>
                     </div>
                   )}
                   <div
@@ -587,9 +381,7 @@ export default function HomePage() {
                   >
                     {category.icon}
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
-                    {category.name}
-                  </h3>
+                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">{category.name}</h3>
                   <p className="text-sm text-gray-500 mb-2">{category.count.toLocaleString()} offers</p>
                   <p className="text-xs text-gray-400">{category.description}</p>
                 </CardContent>
@@ -607,11 +399,7 @@ export default function HomePage() {
               <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Offers</h2>
               <p className="text-xl text-gray-600">Don't miss these trending deals</p>
             </div>
-            <Button
-              variant="outline"
-              className="hidden md:flex border-gray-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent"
-              asChild
-            >
+            <Button variant="outline" className="hidden md:flex border-gray-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent" asChild>
               <Link href="/offers">
                 View All Offers
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -620,31 +408,14 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {isLoading ? (
-                  // Loading skeleton
-                  Array.from({ length: 3 }).map((_, index) => (
-                    <Card key={index} className="overflow-hidden hover:shadow-lg transition-all duration-300 animate-pulse">
-                      <div className="aspect-video bg-gray-200"></div>
-                      <CardContent className="p-6">
-                        <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                        <div className="h-3 bg-gray-200 rounded mb-4"></div>
-                        <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
-                      </CardContent>
-                    </Card>
-                  ))
-                ) : (
-                  offers.map((offer: any, index: number) => (
+            {featuredOffers.map((offer, index) => (
               <Card
                 key={offer.id}
                 className="border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer bg-white animate-fade-in-up group overflow-hidden"
                 style={{ animationDelay: `${200 + index * 150}ms` }}
               >
                 <div className="relative overflow-hidden">
-                  <img
-                    src={offer.image || "/placeholder.svg"}
-                    alt={offer.title}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+                  <img src={offer.image || '/placeholder.svg'} alt={offer.title} className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                   {/* Enhanced Badges */}
@@ -653,9 +424,7 @@ export default function HomePage() {
                       <Sparkles className="w-3 h-3 mr-1" />
                       {offer.discount} OFF
                     </Badge>
-                    {offer.featured && (
-                      <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white">⭐ Featured</Badge>
-                    )}
+                    {offer.featured && <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white">⭐ Featured</Badge>}
                   </div>
 
                   <div className="absolute top-4 right-4 flex flex-col space-y-2">
@@ -676,27 +445,23 @@ export default function HomePage() {
                       size="sm"
                       variant="secondary"
                       className="bg-white/90 backdrop-blur-sm hover:bg-white"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        handleLikeOffer(offer.id)
+                      onClick={e => {
+                        e.preventDefault();
+                        handleLikeOffer(offer.id);
                       }}
                     >
-                      <Heart
-                        className={`w-4 h-4 ${likedOffers.includes(offer.id) ? "fill-red-500 text-red-500" : ""}`}
-                      />
+                      <Heart className={`w-4 h-4 ${likedOffers.includes(offer.id) ? 'fill-red-500 text-red-500' : ''}`} />
                     </Button>
                     <Button
                       size="sm"
                       variant="secondary"
                       className="bg-white/90 backdrop-blur-sm hover:bg-white"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        handleBookmarkOffer(offer.id)
+                      onClick={e => {
+                        e.preventDefault();
+                        handleBookmarkOffer(offer.id);
                       }}
                     >
-                      <Bookmark
-                        className={`w-4 h-4 ${bookmarkedOffers.includes(offer.id) ? "fill-blue-500 text-blue-500" : ""}`}
-                      />
+                      <Bookmark className={`w-4 h-4 ${bookmarkedOffers.includes(offer.id) ? 'fill-blue-500 text-blue-500' : ''}`} />
                     </Button>
                     <Button size="sm" variant="secondary" className="bg-white/90 backdrop-blur-sm hover:bg-white">
                       <Share2 className="w-4 h-4" />
@@ -705,21 +470,15 @@ export default function HomePage() {
 
                   {/* Savings Badge */}
                   <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
-                      💰 {offer.savings} saved by users
-                    </Badge>
+                    <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">💰 {offer.savings} saved by users</Badge>
                   </div>
                 </div>
 
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
-                        {offer.title}
-                      </CardTitle>
-                      <CardDescription className="text-gray-600 line-clamp-3 leading-relaxed">
-                        {offer.description}
-                      </CardDescription>
+                      <CardTitle className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">{offer.title}</CardTitle>
+                      <CardDescription className="text-gray-600 line-clamp-3 leading-relaxed">{offer.description}</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
@@ -729,7 +488,7 @@ export default function HomePage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <Avatar className="w-10 h-10">
-                        <AvatarImage src={offer.brand.logo || "/placeholder.svg"} alt={offer.brand.name} />
+                        <AvatarImage src={offer.brand.logo || '/placeholder.svg'} alt={offer.brand.name} />
                         <AvatarFallback>{offer.brand.name.substring(0, 2)}</AvatarFallback>
                       </Avatar>
                       <div>
@@ -740,14 +499,7 @@ export default function HomePage() {
                         <div className="flex items-center space-x-1">
                           <div className="flex items-center space-x-1">
                             {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`w-3 h-3 ${
-                                  i < Math.floor(offer.brand.rating)
-                                    ? "fill-yellow-400 text-yellow-400"
-                                    : "text-gray-200"
-                                }`}
-                              />
+                              <Star key={i} className={`w-3 h-3 ${i < Math.floor(offer.brand.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-200'}`} />
                             ))}
                           </div>
                           <span className="text-xs text-gray-500">
@@ -763,12 +515,8 @@ export default function HomePage() {
 
                   {/* Enhanced Tags */}
                   <div className="flex flex-wrap gap-1">
-                    {offer.tags.slice(0, 4).map((tag: string) => (
-                      <Badge
-                        key={tag}
-                        variant="outline"
-                        className="text-xs border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors duration-200"
-                      >
+                    {offer.tags.slice(0, 4).map(tag => (
+                      <Badge key={tag} variant="outline" className="text-xs border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors duration-200">
                         {tag}
                       </Badge>
                     ))}
@@ -818,9 +566,7 @@ export default function HomePage() {
                     </div>
                     <div className="text-right">
                       <div className="text-sm text-gray-600">You Save</div>
-                      <div className="text-lg font-bold text-red-600">
-                        ${offer.originalPrice - offer.discountedPrice}
-                      </div>
+                      <div className="text-lg font-bold text-red-600">${offer.originalPrice - offer.discountedPrice}</div>
                     </div>
                   </div>
 
@@ -837,16 +583,11 @@ export default function HomePage() {
                   </Button>
                 </CardContent>
               </Card>
-                ))
-              )}
+            ))}
           </div>
 
           <div className="text-center mt-12 md:hidden">
-            <Button
-              variant="outline"
-              className="border-gray-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent"
-              asChild
-            >
+            <Button variant="outline" className="border-gray-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent" asChild>
               <Link href="/offers">
                 View All Offers
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -873,20 +614,15 @@ export default function HomePage() {
                       <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  <blockquote className="text-xl text-gray-700 mb-6 leading-relaxed">
-                    "{testimonials[currentTestimonial].content}"
-                  </blockquote>
+                  <blockquote className="text-xl text-gray-700 mb-6 leading-relaxed">"{testimonials[currentTestimonial].content}"</blockquote>
                   <div className="flex items-center justify-center space-x-4">
                     <Avatar className="w-16 h-16">
-                      <AvatarImage
-                        src={testimonials[currentTestimonial].avatar || "/placeholder.svg"}
-                        alt={testimonials[currentTestimonial].name}
-                      />
+                      <AvatarImage src={testimonials[currentTestimonial].avatar || '/placeholder.svg'} alt={testimonials[currentTestimonial].name} />
                       <AvatarFallback>
                         {testimonials[currentTestimonial].name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
+                          .split(' ')
+                          .map(n => n[0])
+                          .join('')}
                       </AvatarFallback>
                     </Avatar>
                     <div className="text-left">
@@ -905,9 +641,7 @@ export default function HomePage() {
                 <button
                   key={index}
                   onClick={() => setCurrentTestimonial(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentTestimonial ? "bg-blue-600 scale-125" : "bg-gray-300 hover:bg-gray-400"
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentTestimonial ? 'bg-blue-600 scale-125' : 'bg-gray-300 hover:bg-gray-400'}`}
                 />
               ))}
             </div>
@@ -927,31 +661,31 @@ export default function HomePage() {
             {[
               {
                 icon: <Zap className="w-8 h-8" />,
-                title: "Instant Access",
-                description: "Get immediate access to thousands of exclusive offers from top brands worldwide",
-                color: "from-yellow-500 to-orange-500",
-                stats: "15,000+ offers",
+                title: 'Instant Access',
+                description: 'Get immediate access to thousands of exclusive offers from top brands worldwide',
+                color: 'from-yellow-500 to-orange-500',
+                stats: '15,000+ offers',
               },
               {
                 icon: <Shield className="w-8 h-8" />,
-                title: "Verified Brands",
-                description: "All our partner brands are verified and trusted by millions of customers globally",
-                color: "from-blue-500 to-cyan-500",
-                stats: "2,500+ brands",
+                title: 'Verified Brands',
+                description: 'All our partner brands are verified and trusted by millions of customers globally',
+                color: 'from-blue-500 to-cyan-500',
+                stats: '2,500+ brands',
               },
               {
                 icon: <Gift className="w-8 h-8" />,
-                title: "Exclusive Deals",
-                description: "Access special offers that are only available through our platform",
-                color: "from-purple-500 to-pink-500",
-                stats: "Up to 70% off",
+                title: 'Exclusive Deals',
+                description: 'Access special offers that are only available through our platform',
+                color: 'from-purple-500 to-pink-500',
+                stats: 'Up to 70% off',
               },
               {
                 icon: <Heart className="w-8 h-8" />,
-                title: "Personalized",
-                description: "Get recommendations based on your preferences and shopping history",
-                color: "from-red-500 to-pink-500",
-                stats: "AI-powered",
+                title: 'Personalized',
+                description: 'Get recommendations based on your preferences and shopping history',
+                color: 'from-red-500 to-pink-500',
+                stats: 'AI-powered',
               },
             ].map((feature, index) => (
               <Card
@@ -965,9 +699,7 @@ export default function HomePage() {
                   >
                     {feature.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">
-                    {feature.title}
-                  </h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">{feature.title}</h3>
                   <p className="text-gray-600 leading-relaxed mb-4">{feature.description}</p>
                   <Badge className={`bg-gradient-to-r ${feature.color} text-white`}>{feature.stats}</Badge>
                 </CardContent>
@@ -983,9 +715,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 relative">
           <div className="text-center text-white animate-fade-in-up">
             <div className="mb-6">
-              <Badge className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 text-lg font-medium">
-                🚀 Limited Time: Double Rewards for New Members!
-              </Badge>
+              <Badge className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 text-lg font-medium">🚀 Limited Time: Double Rewards for New Members!</Badge>
             </div>
             <h2 className="text-4xl md:text-6xl font-bold mb-6">Ready to Start Saving?</h2>
             <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto leading-relaxed">
@@ -1049,21 +779,20 @@ export default function HomePage() {
                 <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl">
                   <Store className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-xl font-bold">BrandOffers</span>
+                <span className="text-xl font-bold">FindMyDeals</span>
               </div>
               <p className="text-gray-400 leading-relaxed mb-6">
-                Connecting customers with their favorite brands through exclusive offers and deals. Join our community
-                of smart shoppers and start saving today!
+                Connecting customers with their favorite brands through exclusive offers and deals. Join our community of smart shoppers and start saving today!
               </p>
               <div className="flex space-x-4">
-                {["facebook", "twitter", "instagram", "linkedin"].map((social) => (
-                  <Button
-                    key={social}
-                    variant="ghost"
-                    size="sm"
-                    className="hover:bg-gray-800 transition-colors duration-300"
-                  >
-                    <div className="w-5 h-5 bg-gray-400 rounded"></div>
+                {[
+                  { icon: Facebook, name: 'facebook' },
+                  { icon: Twitter, name: 'twitter' },
+                  { icon: Instagram, name: 'instagram' },
+                  { icon: Linkedin, name: 'linkedin' },
+                ].map(social => (
+                  <Button key={social.name} variant="ghost" size="sm" className=" transition-colors duration-300">
+                    <social.icon className="w-5 h-5" />
                   </Button>
                 ))}
               </div>
@@ -1234,5 +963,5 @@ export default function HomePage() {
         }
       `}</style>
     </div>
-  )
+  );
 }

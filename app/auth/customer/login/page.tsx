@@ -6,12 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Separator } from "@/components/ui/separator"
 import { Store, Mail, Lock, ArrowRight, Eye, EyeOff, Gift, Users, Shield } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useCustomerLogin } from '@/hooks/useApi';
 import { z } from 'zod'
 import { useAuth } from "@/context/AuthContext"
 
@@ -40,6 +37,7 @@ export default function CustomerLoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isValidating, setIsValidating] = useState(false)
   const { login, loginError, loginPending } = useAuth()
+  console.log(loginError)
 
   // Handle input changes with field-level validation
   const handleInputChange = (field: keyof CustomerLoginForm, value: string | boolean) => {
@@ -109,12 +107,12 @@ export default function CustomerLoginPage() {
           <div className="space-y-6">
             <Link href="/" className="flex items-center space-x-3">
               <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-gradient-to-r from-green-600 to-blue-600 p-3 rounded-xl transform group-hover:scale-110 transition-transform duration-300">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative bg-gradient-to-r from-purple-600 to-blue-600 p-3 rounded-xl transform group-hover:scale-110 transition-transform duration-300">
                   <Store className="h-8 w-8 text-white" />
                 </div>
               </div>
-              <span className="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+              <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 BrandOffers
               </span>
             </Link>
@@ -122,7 +120,7 @@ export default function CustomerLoginPage() {
             <div className="space-y-4">
               <h1 className="text-5xl font-bold text-gray-900 leading-tight">
                 Welcome Back,
-                <span className="block bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                   Smart Shopper!
                 </span>
               </h1>
@@ -136,7 +134,7 @@ export default function CustomerLoginPage() {
           {/* Features */}
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
-              <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-3 rounded-xl shadow-lg">
+              <div className="bg-gradient-to-r from-purple-500 to-emerald-500 p-3 rounded-xl shadow-lg">
                 <Gift className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -231,6 +229,8 @@ export default function CustomerLoginPage() {
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-300"
+                        
+                        
                       >
                         {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                       </button>
@@ -255,7 +255,7 @@ export default function CustomerLoginPage() {
                   </div>
                   <Link
                     href="/auth/forgot-password"
-                    className="text-sm text-green-600 hover:text-green-700 font-medium transition-colors duration-300"
+                    className="text-sm text-purple-600 hover:text-purple-700 font-medium transition-colors duration-300"
                   >
                     Forgot password?
                   </Link>
@@ -264,7 +264,9 @@ export default function CustomerLoginPage() {
                 <Button
                   type="submit"
                   disabled={loginPending || isValidating}
-                  className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 h-12 text-lg font-semibold hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 h-12 text-lg font-semibold hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed "
+                  // className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform "
+                  
                 >
                   {loginPending || isValidating ? (
                     <div className="flex items-center space-x-2">
@@ -294,7 +296,7 @@ export default function CustomerLoginPage() {
                   Don't have an account?{" "}
                   <Link
                     href="/auth/customer/register"
-                    className="text-green-600 hover:text-green-700 font-semibold transition-colors duration-300"
+                    className="text-purple-600 hover:text-purple-700 font-semibold transition-colors duration-300"
                   >
                     Sign up here
                   </Link>

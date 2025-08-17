@@ -1,6 +1,9 @@
 "use client"
 
 import type React from "react"
+import { z } from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,46 +13,48 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Store, ArrowLeft, Eye, EyeOff, Mail, Lock, Sparkles, Shield } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation"
+
+// Define validation schema with Zod
+const loginSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  rememberMe: z.boolean().default(false)
+})
+
+type LoginFormData = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  })
   const [showPassword, setShowPassword] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
   const [isLoading, setIsLoading] = useState(false)
+  const { login, loginError, loginPending } = useAuth()
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      rememberMe: false,
+    },
+  })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-
-    // Basic validation
-    const newErrors: Record<string, string> = {}
-
-    if (!formData.email.trim()) newErrors.email = "Email is required"
-    if (!formData.password) newErrors.password = "Password is required"
-
-    setErrors(newErrors)
-
-    if (Object.keys(newErrors).length === 0) {
-      // Simulate login process
-      setTimeout(() => {
-        console.log("Login successful:", formData)
-        setIsLoading(false)
-        // Redirect to dashboard
-        window.location.href = "/dashboard"
-      }, 1000)
-    } else {
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      setIsLoading(true)
+      // Use the login function from AuthContext
+      await login(data.email, data.password, "brand")
+      
+    } catch (error) {
+      console.error("Login error:", error)
+      
+    } finally {
       setIsLoading(false)
-    }
-  }
-
-  const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }))
     }
   }
 
@@ -116,7 +121,7 @@ export default function LoginPage() {
           </CardHeader>
 
           <CardContent className="px-8 pb-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Email Field */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-gray-700 font-medium">
@@ -127,18 +132,19 @@ export default function LoginPage() {
                   <Input
                     id="email"
                     type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    {...register("email")}
                     placeholder="Enter your email"
-                    className="pl-12 pr-4 py-3 border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all duration-300 hover:border-gray-300 bg-white/50 backdrop-blur-sm"
+                    className={`pl-12 pr-4 py-3 border-2 ${
+                      errors.email ? "border-red-500" : "border-gray-200 hover:border-gray-300"
+                    } focus:border-blue-500 focus:ring-0 transition-all duration-300 bg-white/50 backdrop-blur-sm`}
                     aria-describedby={errors.email ? "email-error" : undefined}
                     aria-invalid={!!errors.email}
-                    disabled={isLoading}
+                    disabled={isLoading || loginPending}
                   />
                 </div>
                 {errors.email && (
-                  <p id="email-error" className="text-sm text-red-500 animate-fade-in-up" role="alert">
-                    {errors.email}
+                  <p id="email-error" className="text-sm text-red-500 mt-1 animate-fade-in-up" role="alert">
+                    {errors.email.message}
                   </p>
                 )}
               </div>
@@ -153,13 +159,14 @@ export default function LoginPage() {
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    value={formData.password}
-                    onChange={(e) => handleInputChange("password", e.target.value)}
+                    {...register("password")}
                     placeholder="Enter your password"
-                    className="pl-12 pr-12 py-3 border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all duration-300 hover:border-gray-300 bg-white/50 backdrop-blur-sm"
+                    className={`pl-12 pr-12 py-3 border-2 ${
+                      errors.password ? "border-red-500" : "border-gray-200 hover:border-gray-300"
+                    } focus:border-blue-500 focus:ring-0 transition-all duration-300 bg-white/50 backdrop-blur-sm`}
                     aria-describedby={errors.password ? "password-error" : undefined}
                     aria-invalid={!!errors.password}
-                    disabled={isLoading}
+                    disabled={isLoading || loginPending}
                   />
                   <Button
                     type="button"
@@ -174,8 +181,8 @@ export default function LoginPage() {
                   </Button>
                 </div>
                 {errors.password && (
-                  <p id="password-error" className="text-sm text-red-500 animate-fade-in-up" role="alert">
-                    {errors.password}
+                  <p id="password-error" className="text-sm text-red-500 mt-1 animate-fade-in-up" role="alert">
+                    {errors.password.message}
                   </p>
                 )}
               </div>
@@ -185,9 +192,8 @@ export default function LoginPage() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="rememberMe"
-                    checked={formData.rememberMe}
-                    onCheckedChange={(checked) => handleInputChange("rememberMe", checked as boolean)}
-                    disabled={isLoading}
+                    {...register("rememberMe")}
+                    disabled={isLoading || loginPending}
                     className="border-2 border-gray-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
                   />
                   <Label htmlFor="rememberMe" className="text-sm font-medium cursor-pointer text-gray-700">
@@ -208,7 +214,7 @@ export default function LoginPage() {
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 py-3 text-lg font-medium hover:scale-[1.02] transform disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isLoading}
               >
-                {isLoading ? (
+                {isLoading || loginPending ? (
                   <div className="flex items-center space-x-2">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     <span>Signing in...</span>
@@ -260,20 +266,8 @@ export default function LoginPage() {
             </div>
           </CardContent>
         </Card>
-
-        {/* Features */}
-        <div className="mt-8 grid grid-cols-2 gap-4 animate-fade-in-up" style={{ animationDelay: "400ms" }}>
-          <div className="text-center p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/70 transition-all duration-300 hover:scale-105 transform">
-            <Shield className="w-6 h-6 text-green-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-700">Secure & Protected</p>
-          </div>
-          <div className="text-center p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/70 transition-all duration-300 hover:scale-105 transform">
-            <Sparkles className="w-6 h-6 text-blue-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-700">Easy to Use</p>
-          </div>
-        </div>
       </div>
-
+      
       {/* Custom Styles */}
       <style jsx>{`
         @keyframes fade-in-up {

@@ -322,7 +322,13 @@ export const useBrandRegister = () => {
 }
 
 export const useBrandLogin = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (data: any) => apiClient.brandLogin(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries()
+    },
+
   })
 } 

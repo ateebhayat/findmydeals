@@ -1,91 +1,65 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { Store, MapPin, Globe, Star, Calendar, ExternalLink, Tag, Percent, ArrowLeft } from "lucide-react"
-import Link from "next/link"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Store, MapPin, Globe, Star, Calendar, ExternalLink, Tag, Percent, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 // Mock data - in real app, this would come from database
 const brandData = {
   id: 1,
-  name: "Fashion Forward",
+  name: 'Fashion Forward',
   description:
     "Fashion Forward is a leading sustainable fashion brand committed to creating trendy, high-quality clothing while minimizing environmental impact. Founded in 2020, we've been at the forefront of eco-conscious fashion, using recycled materials and ethical manufacturing processes.",
-  category: "Clothing & Fashion",
-  location: "New York, NY",
-  website: "https://fashionforward.com",
-  email: "contact@fashionforward.com",
-  phone: "+1 (555) 123-4567",
+  category: 'Clothing & Fashion',
+  location: 'New York, NY',
+  website: 'https://fashionforward.com',
+  email: 'contact@fashionforward.com',
+  phone: '+1 (555) 123-4567',
   rating: 4.8,
   totalReviews: 324,
   verified: true,
-  joinedDate: "2023-01-15",
+  joinedDate: '2023-01-15',
   totalOffers: 8,
   activeOffers: 3,
   totalViews: 15420,
-  address: "123 Fashion Avenue, New York, NY 10001",
-}
+  address: '123 Fashion Avenue, New York, NY 10001',
+};
 
 const offers = [
   {
     id: 1,
-    title: "50% Off Summer Collection",
-    description: "Get 50% off on all summer clothing items. Limited time offer!",
-    discount: "50%",
-    validUntil: "2024-08-31",
+    title: '50% Off Summer Collection',
+    description: 'Get 50% off on all summer clothing items. Limited time offer!',
+    discount: '50%',
+    validUntil: '2024-08-31',
     isActive: true,
-    category: "Clothing",
+    category: 'Clothing',
   },
   {
     id: 2,
-    title: "Free Shipping Weekend",
-    description: "Enjoy free shipping on all orders this weekend only.",
-    discount: "Free Shipping",
-    validUntil: "2024-07-28",
+    title: 'Free Shipping Weekend',
+    description: 'Enjoy free shipping on all orders this weekend only.',
+    discount: 'Free Shipping',
+    validUntil: '2024-07-28',
     isActive: true,
-    category: "Clothing",
+    category: 'Clothing',
   },
   {
     id: 3,
-    title: "Student Discount",
-    description: "Students get 20% off with valid student ID.",
-    discount: "20%",
-    validUntil: "2024-12-31",
+    title: 'Student Discount',
+    description: 'Students get 20% off with valid student ID.',
+    discount: '20%',
+    validUntil: '2024-12-31',
     isActive: true,
-    category: "Clothing",
+    category: 'Clothing',
   },
-]
+];
 
 export default function BrandProfilePage({ params }: { params: { id: string } }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" asChild>
-                <Link href="/brands">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Brands
-                </Link>
-              </Button>
-              <div className="flex items-center space-x-2">
-                <Store className="h-6 w-6 text-primary" />
-                <span className="text-xl font-bold text-primary">BrandOffers</span>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Button variant="outline" asChild>
-                <Link href="/auth/login">Brand Login</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/auth/register">Register Brand</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -131,7 +105,7 @@ export default function BrandProfilePage({ params }: { params: { id: string } })
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {offers.map((offer) => (
+                {offers.map(offer => (
                   <Card key={offer.id} className="hover:shadow-md transition-shadow">
                     <CardHeader className="pb-3">
                       <div className="flex items-start justify-between">
@@ -149,7 +123,10 @@ export default function BrandProfilePage({ params }: { params: { id: string } })
                           <Calendar className="w-4 h-4 mr-1" />
                           Valid until {new Date(offer.validUntil).toLocaleDateString()}
                         </div>
-                        <Button size="sm">
+                        <Button
+                          size="sm"
+                          className=" bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
+                        >
                           <Tag className="w-4 h-4 mr-2" />
                           View Offer
                         </Button>
@@ -176,12 +153,7 @@ export default function BrandProfilePage({ params }: { params: { id: string } })
                       </div>
                       <div className="flex items-center">
                         <Globe className="h-4 w-4 mr-2 text-muted-foreground" />
-                        <a
-                          href={brandData.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline"
-                        >
+                        <a href={brandData.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                           {brandData.website}
                           <ExternalLink className="h-3 w-3 ml-1 inline" />
                         </a>
@@ -311,5 +283,5 @@ export default function BrandProfilePage({ params }: { params: { id: string } })
         </div>
       </div>
     </div>
-  )
+  );
 }

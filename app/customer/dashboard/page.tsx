@@ -249,14 +249,7 @@ const {user} = useAuth()
             </nav>
 
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" className="relative">
-                <Bell className="h-5 w-5" />
-                {dashboard?.notifications > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {dashboard.notifications}
-                  </span>
-                )}
-              </Button>
+            
               <Avatar className="w-8 h-8">
                 <AvatarImage src={dashboard?.avatar || "/placeholder.svg"} alt={dashboard?.name || "User"} />
                 <AvatarFallback>
