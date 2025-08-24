@@ -8,7 +8,6 @@ import { usePathname } from 'next/navigation';
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  console.log(pathname);
   if (
     pathname === '/auth/customer/login' ||
     pathname === '/auth/customer/register' ||

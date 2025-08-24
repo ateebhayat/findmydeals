@@ -27,50 +27,7 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
 import { useRouter } from 'nextjs-toploader/app';
-
-
-// Mock data for demonstration
-const mockOffer = {
-  id: 1,
-  title: "50% Off Summer Collection",
-  description:
-    "Get 50% off on all summer clothing items including dresses, tops, shorts, and accessories. This exclusive offer is perfect for updating your wardrobe with the latest summer trends. Don't miss out on this limited-time opportunity to save big on premium fashion items.",
-  discount: "50%",
-  discountType: "percentage",
-  originalPrice: 200,
-  discountedPrice: 100,
-  validFrom: "2024-07-01",
-  validUntil: "2024-08-31",
-  isActive: true,
-  views: 1250,
-  claims: 89,
-  maxClaims: 500,
-  category: "Fashion & Clothing",
-  tags: ["Summer", "Clothing", "Fashion", "Sale"],
-  terms: [
-    "Valid on all summer collection items",
-    "Cannot be combined with other offers",
-    "Valid for online and in-store purchases",
-    "Minimum purchase of $50 required",
-    "Offer expires on August 31, 2024",
-  ],
-  brand: {
-    id: 1,
-    name: "Fashion Forward",
-    logo: "/placeholder.svg?height=80&width=80&text=FF",
-    description: "Premium fashion brand offering trendy and affordable clothing for modern lifestyle.",
-    rating: 4.8,
-    totalReviews: 1250,
-    verified: true,
-    location: "New York, NY",
-    website: "https://fashionforward.com",
-  },
-  images: [
-    "/placeholder.svg?height=400&width=600&text=Summer+Collection+1",
-    "/placeholder.svg?height=400&width=600&text=Summer+Collection+2",
-    "/placeholder.svg?height=400&width=600&text=Summer+Collection+3",
-  ],
-}
+import { mockOffer } from '@/lib/mock-data';
 
 export default function OfferDetailPage() {
   const params = useParams()
@@ -127,52 +84,7 @@ export default function OfferDetailPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" onClick={() => router.back()} className="hover:bg-gray-100">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <Link href="/" className="flex items-center space-x-3">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-75"></div>
-                  <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl">
-                    <Store className="h-6 w-6 text-white" />
-                  </div>
-                </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  FindMyDeals
-                </span>
-              </Link>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsLiked(!isLiked)}
-                className={`transition-all duration-300 hover:scale-105 ${
-                  isLiked ? "bg-red-50 border-red-200 text-red-600" : "hover:bg-gray-50"
-                }`}
-              >
-                <Heart className={`w-4 h-4 mr-2 ${isLiked ? "fill-current" : ""}`} />
-                {isLiked ? "Liked" : "Like"}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleShare}
-                className="hover:bg-gray-50 transition-all duration-300 hover:scale-105 bg-transparent"
-              >
-                <Share2 className="w-4 h-4 mr-2" />
-                Share
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -182,7 +94,7 @@ export default function OfferDetailPage() {
             <Card className="border-0 shadow-lg overflow-hidden animate-fade-in-up">
               <div className="relative">
                 <img
-                  src={offer.images[currentImageIndex] || "/placeholder.svg"}
+                  src={offer.images?.[currentImageIndex] || "/placeholder.svg"}
                   alt={`${offer.title} - Image ${currentImageIndex + 1}`}
                   className="w-full h-96 object-cover"
                 />
@@ -198,9 +110,9 @@ export default function OfferDetailPage() {
                   </Badge>
                 </div>
               </div>
-              {offer.images.length > 1 && (
+              {offer.images && offer.images.length > 1 && (
                 <div className="flex space-x-2 p-4 bg-gray-50">
-                  {offer.images.map((image, index) => (
+                  {offer.images?.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
@@ -266,7 +178,7 @@ export default function OfferDetailPage() {
                     <Calendar className="w-5 h-5 text-green-600" />
                     <div>
                       <p className="font-medium text-green-800">Valid From</p>
-                      <p className="text-sm text-green-600">{new Date(offer.validFrom).toLocaleDateString()}</p>
+                      <p className="text-sm text-green-600">{offer.validFrom ? new Date(offer.validFrom).toLocaleDateString() : 'N/A'}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3 p-4 bg-red-50 rounded-lg">
@@ -306,7 +218,7 @@ export default function OfferDetailPage() {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {offer.terms.map((term, index) => (
+                  {offer.terms?.map((term, index) => (
                     <li key={index} className="flex items-start space-x-3">
                       <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                       <span className="text-gray-700">{term}</span>

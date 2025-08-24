@@ -16,19 +16,19 @@ import { useState } from "react"
 export default function SettingsPage() {
   const [formData, setFormData] = useState({
     // Brand Information
-    brandName: "Fashion Forward",
-    email: "contact@fashionforward.com",
-    contactPerson: "Sarah Johnson",
-    phone: "+1-555-0101",
-    website: "https://fashionforward.com",
-    description: "Trendy clothing for the modern lifestyle",
+    brandName: "Celtic Fashion",
+    email: "contact@celticfashion.ie",
+    contactPerson: "Siobhan O'Connor",
+    phone: "+353-1-234-5678",
+    website: "https://celticfashion.ie",
+    description: "Traditional and modern Irish fashion with sustainable materials",
     category: "clothing",
 
     // Address
-    address: "123 Fashion Ave",
-    city: "New York",
-    state: "NY",
-    zipCode: "10001",
+    address: "15 Grafton Street",
+    city: "Dublin",
+    state: "Dublin",
+    zipCode: "D02 HK58",
 
     // Notification Settings
     emailNotifications: true,
@@ -88,7 +88,7 @@ export default function SettingsPage() {
                 <h1 className="text-xl font-bold">Settings</h1>
               </div>
             </div>
-            <Badge variant="secondary">Fashion Forward</Badge>
+            <Badge variant="secondary">Celtic Fashion</Badge>
           </div>
         </div>
       </header>

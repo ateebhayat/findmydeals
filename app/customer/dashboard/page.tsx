@@ -23,156 +23,21 @@ import {
   Download,
   Share2,
   Filter,
+  LogOut,
 } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { useCustomerDashboard, useClaimedOffers } from "@/hooks/useApi"
 import { useAuth } from "@/context/AuthContext"
+import { userData, claimedOffers, offers, recentActivity } from "@/lib/mock-data"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 
-// Mock user data
-const userData = {
-  id: 1,
-  name: "Sarah Johnson",
-  email: "sarah.johnson@email.com",
-  avatar: "/placeholder.svg?height=80&width=80&text=SJ",
-  joinDate: "2024-01-15",
-  totalSavings: 2156,
-  claimedOffers: 23,
-  favoriteOffers: 12,
-  membershipLevel: "Gold",
-  nextLevelProgress: 75,
-  notifications: 3,
-  rewardPoints: 1250,
-}
-
-const claimedOffers = [
-  {
-    id: 1,
-    title: "50% Off Summer Collection",
-    brand: {
-      name: "Fashion Forward",
-      logo: "/placeholder.svg?height=40&width=40&text=FF",
-      verified: true,
-    },
-    discount: "50%",
-    savings: 125,
-    claimedDate: "2024-07-20",
-    status: "active",
-    expiryDate: "2024-08-31",
-    category: "Fashion",
-    image: "/placeholder.svg?height=200&width=300&text=Summer+Sale",
-    code: "SUMMER50",
-    usageCount: 1,
-    maxUsage: 3,
-  },
-  {
-    id: 2,
-    title: "Free Premium Shipping",
-    brand: {
-      name: "TechHub Pro",
-      logo: "/placeholder.svg?height=40&width=40&text=TH",
-      verified: true,
-    },
-    discount: "Free Shipping",
-    savings: 25,
-    claimedDate: "2024-07-18",
-    status: "used",
-    expiryDate: "2024-07-28",
-    category: "Electronics",
-    image: "/placeholder.svg?height=200&width=300&text=Free+Shipping",
-    code: "FREESHIP",
-    usageCount: 1,
-    maxUsage: 1,
-  },
-  {
-    id: 3,
-    title: "Buy 2 Get 1 Free Coffee",
-    brand: {
-      name: "Artisan Brew Co.",
-      logo: "/placeholder.svg?height=40&width=40&text=AB",
-      verified: true,
-    },
-    discount: "33%",
-    savings: 15,
-    claimedDate: "2024-07-15",
-    status: "expired",
-    expiryDate: "2024-07-20",
-    category: "Food & Beverage",
-    image: "/placeholder.svg?height=200&width=300&text=Coffee+Deal",
-    code: "COFFEE3FOR2",
-    usageCount: 2,
-    maxUsage: 5,
-  },
-]
-
-const favoriteOffers = [
-  {
-    id: 4,
-    title: "20% Off First Spa Visit",
-    brand: {
-      name: "Serenity Spa",
-      logo: "/placeholder.svg?height=40&width=40&text=SS",
-      verified: true,
-    },
-    discount: "20%",
-    validUntil: "2024-12-31",
-    category: "Health & Beauty",
-    image: "/placeholder.svg?height=200&width=300&text=Spa+Treatment",
-    trending: false,
-    views: 432,
-    claims: 12,
-  },
-  {
-    id: 5,
-    title: "Student Discount - 25% Off",
-    brand: {
-      name: "Book Haven",
-      logo: "/placeholder.svg?height=40&width=40&text=BH",
-      verified: false,
-    },
-    discount: "25%",
-    validUntil: "2024-09-30",
-    category: "Education",
-    image: "/placeholder.svg?height=200&width=300&text=Student+Discount",
-    trending: true,
-    views: 789,
-    claims: 67,
-  },
-]
-
-const recentActivity = [
-  {
-    id: 1,
-    type: "claim",
-    title: "Claimed 50% Off Summer Collection",
-    brand: "Fashion Forward",
-    timestamp: "2 hours ago",
-    icon: Gift,
-    color: "text-green-600",
-  },
-  {
-    id: 2,
-    type: "favorite",
-    title: "Added Spa Treatment to favorites",
-    brand: "Serenity Spa",
-    timestamp: "1 day ago",
-    icon: Heart,
-    color: "text-red-600",
-  },
-  {
-    id: 3,
-    type: "achievement",
-    title: "Reached Gold membership level",
-    brand: "FindMyDeals",
-    timestamp: "3 days ago",
-    icon: Award,
-    color: "text-yellow-600",
-  },
-]
+// Use first few offers as favorite offers for the dashboard
+const favoriteOffers = offers.slice(3, 5);
 
 export default function CustomerDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
-const {user} = useAuth()
+const {user, logout} = useAuth()
   // React Query hooks
   const { data: dashboardData, isLoading: dashboardLoading, error: dashboardError } = useCustomerDashboard()
   const { data: claimedOffersData, isLoading: claimedOffersLoading, error: claimedOffersError } = useClaimedOffers({ limit: 10 })
@@ -250,15 +115,26 @@ const {user} = useAuth()
 
             <div className="flex items-center space-x-4">
             
-              <Avatar className="w-8 h-8">
-                <AvatarImage src={dashboard?.avatar || "/placeholder.svg"} alt={dashboard?.name || "User"} />
-                <AvatarFallback>
-                  {dashboard?.name
-                    ?.split(" ")
-                    .map((n: string) => n[0])
-                    .join("") || "U"}
-                </AvatarFallback>
-              </Avatar>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-gray-200 hover:border-blue-300 hover:bg-blue-50 bg-transparent"
+                  >
+                    <Settings className="h-4 w-4 mr-2" />
+                    Account
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                 
+                  
+                  <DropdownMenuItem className="text-red-600" onClick={logout}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>

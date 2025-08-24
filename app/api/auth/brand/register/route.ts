@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { initializeDatabase } from "@/lib/db"
 import { AuthService } from "@/lib/auth"
 import { BrandService } from "@/lib/db/service"
 
@@ -18,7 +17,6 @@ const registerSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    await initializeDatabase()
 
     const body = await request.json()
     const validatedData = registerSchema.parse(body)

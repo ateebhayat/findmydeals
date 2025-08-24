@@ -22,6 +22,188 @@ const generateClaimCode = () => {
   return faker.string.alphanumeric(8).toUpperCase()
 }
 
+// Irish geographical data
+const IRISH_COUNTIES = [
+  // Republic of Ireland (26 counties)
+  'Dublin', 'Cork', 'Galway', 'Mayo', 'Donegal', 'Kerry', 'Tipperary', 'Clare', 'Tyrone', 'Antrim',
+  'Limerick', 'Roscommon', 'Down', 'Wexford', 'Meath', 'Londonderry', 'Kilkenny', 'Wicklow', 'Offaly',
+  'Cavan', 'Waterford', 'Westmeath', 'Sligo', 'Laois', 'Kildare', 'Fermanagh', 'Leitrim', 'Armagh',
+  'Monaghan', 'Longford', 'Carlow', 'Louth'
+]
+
+const IRISH_CITIES = [
+  { name: 'Dublin', county: 'Dublin', coordinates: { lat: 53.3498, lng: -6.2603 } },
+  { name: 'Cork', county: 'Cork', coordinates: { lat: 51.8985, lng: -8.4756 } },
+  { name: 'Galway', county: 'Galway', coordinates: { lat: 53.2707, lng: -9.0568 } },
+  { name: 'Limerick', county: 'Limerick', coordinates: { lat: 52.6638, lng: -8.6267 } },
+  { name: 'Waterford', county: 'Waterford', coordinates: { lat: 52.2593, lng: -7.1101 } },
+  { name: 'Drogheda', county: 'Louth', coordinates: { lat: 53.7189, lng: -6.3478 } },
+  { name: 'Dundalk', county: 'Louth', coordinates: { lat: 54.0014, lng: -6.4058 } },
+  { name: 'Swords', county: 'Dublin', coordinates: { lat: 53.4597, lng: -6.2178 } },
+  { name: 'Bray', county: 'Wicklow', coordinates: { lat: 53.2026, lng: -6.0983 } },
+  { name: 'Navan', county: 'Meath', coordinates: { lat: 53.6528, lng: -6.6814 } },
+  { name: 'Ennis', county: 'Clare', coordinates: { lat: 52.8436, lng: -8.9864 } },
+  { name: 'Kilkenny', county: 'Kilkenny', coordinates: { lat: 52.6541, lng: -7.2448 } },
+  { name: 'Tralee', county: 'Kerry', coordinates: { lat: 52.2706, lng: -9.7094 } },
+  { name: 'Carlow', county: 'Carlow', coordinates: { lat: 52.8408, lng: -6.9326 } },
+  { name: 'Naas', county: 'Kildare', coordinates: { lat: 53.2156, lng: -6.6669 } },
+  { name: 'Athlone', county: 'Westmeath', coordinates: { lat: 53.4239, lng: -7.9407 } },
+  { name: 'Sligo', county: 'Sligo', coordinates: { lat: 54.2766, lng: -8.4761 } },
+  { name: 'Letterkenny', county: 'Donegal', coordinates: { lat: 54.9503, lng: -7.7342 } },
+  { name: 'Castlebar', county: 'Mayo', coordinates: { lat: 53.8567, lng: -9.2985 } },
+  { name: 'Clonmel', county: 'Tipperary', coordinates: { lat: 52.3558, lng: -7.7036 } }
+]
+
+const IRISH_LANDMARKS = [
+  'Cliffs of Moher', 'Giant\'s Causeway', 'Ring of Kerry', 'Dingle Peninsula', 'Skellig Michael',
+  'Newgrange', 'Glenveagh National Park', 'Killarney National Park', 'The Burren', 'Aran Islands',
+  'Trinity College Dublin', 'Guinness Storehouse', 'Blarney Castle', 'Rock of Cashel', 'Powerscourt Gardens',
+  'Kylemore Abbey', 'Ashford Castle', 'Christ Church Cathedral', 'St. Patrick\'s Cathedral', 'Phoenix Park'
+]
+
+// Authentic Irish brands data
+const IRISH_BRANDS = [
+  // Food & Beverage
+  { name: 'Guinness', industry: 'Food & Dining', description: 'Ireland\'s most famous stout beer, brewed since 1759', website: 'https://www.guinness.com' },
+  { name: 'Jameson Irish Whiskey', industry: 'Food & Dining', description: 'Premium Irish whiskey distilled since 1780', website: 'https://www.jamesonwhiskey.com' },
+  { name: 'Kerrygold', industry: 'Food & Dining', description: 'Ireland\'s leading butter and dairy brand', website: 'https://www.kerrygold.com' },
+  { name: 'Barry\'s Tea', industry: 'Food & Dining', description: 'Ireland\'s favourite tea brand since 1901', website: 'https://www.barrystea.ie' },
+  { name: 'Tayto', industry: 'Food & Dining', description: 'Iconic Irish crisp and snack brand', website: 'https://www.tayto.ie' },
+  { name: 'Murphy\'s Irish Stout', industry: 'Food & Dining', description: 'Cork-based brewery famous for its smooth stout', website: 'https://www.murphys.com' },
+  { name: 'Ballymaloe', industry: 'Food & Dining', description: 'Artisan food producer from County Cork', website: 'https://www.ballymaloe.ie' },
+  
+  // Retail
+  { name: 'Penneys', industry: 'Fashion & Apparel', description: 'Ireland\'s leading value fashion retailer', website: 'https://www.penneys.ie' },
+  { name: 'Dunnes Stores', industry: 'Fashion & Apparel', description: 'Major Irish retail chain for clothing and groceries', website: 'https://www.dunnesstores.com' },
+  { name: 'Brown Thomas', industry: 'Fashion & Apparel', description: 'Luxury department store chain', website: 'https://www.brownthomas.com' },
+  { name: 'Arnotts', industry: 'Fashion & Apparel', description: 'Historic Dublin department store since 1843', website: 'https://www.arnotts.ie' },
+  
+  // Financial Services
+  { name: 'AIB (Allied Irish Banks)', industry: 'Financial Services', description: 'One of Ireland\'s largest banks', website: 'https://www.aib.ie' },
+  { name: 'Bank of Ireland', industry: 'Financial Services', description: 'Ireland\'s oldest bank, established in 1783', website: 'https://www.bankofireland.com' },
+  { name: 'Permanent TSB', industry: 'Financial Services', description: 'Irish retail bank and mortgage lender', website: 'https://www.permanenttsb.ie' },
+  
+  // Technology
+  { name: 'Eircom', industry: 'Technology', description: 'Ireland\'s largest telecommunications provider', website: 'https://www.eir.ie' },
+  { name: 'Three Ireland', industry: 'Technology', description: 'Major mobile network operator in Ireland', website: 'https://www.three.ie' },
+  { name: 'Vodafone Ireland', industry: 'Technology', description: 'Leading mobile and broadband provider', website: 'https://www.vodafone.ie' },
+  
+  // Transportation & Travel
+  { name: 'Ryanair', industry: 'Travel & Tourism', description: 'Europe\'s largest low-cost airline based in Dublin', website: 'https://www.ryanair.com' },
+  { name: 'Aer Lingus', industry: 'Travel & Tourism', description: 'Ireland\'s national airline since 1936', website: 'https://www.aerlingus.com' },
+  { name: 'Irish Rail', industry: 'Travel & Tourism', description: 'Ireland\'s national railway operator', website: 'https://www.irishrail.ie' },
+  { name: 'Bus Éireann', industry: 'Travel & Tourism', description: 'National bus service provider', website: 'https://www.buseireann.ie' },
+  
+  // Construction & Materials
+  { name: 'CRH', industry: 'Construction', description: 'Global building materials company headquartered in Dublin', website: 'https://www.crh.com' },
+  { name: 'Kingspan', industry: 'Construction', description: 'Leading insulation and building envelope solutions', website: 'https://www.kingspan.com' },
+  
+  // Hospitality
+  { name: 'Jurys Inn', industry: 'Travel & Tourism', description: 'Irish hotel chain with locations across Ireland and UK', website: 'https://www.jurysinns.com' },
+  { name: 'The Fitzwilliam Hotel Group', industry: 'Travel & Tourism', description: 'Luxury hotel group with properties across Ireland', website: 'https://www.fitzwilliamhotelgroup.com' },
+  
+  // Media & Entertainment
+  { name: 'RTÉ', industry: 'Entertainment', description: 'Ireland\'s national public service broadcaster', website: 'https://www.rte.ie' },
+  { name: 'Irish Independent', industry: 'Entertainment', description: 'Ireland\'s largest selling daily newspaper', website: 'https://www.independent.ie' },
+  
+  // Healthcare & Beauty
+  { name: 'Boots Ireland', industry: 'Health & Beauty', description: 'Leading pharmacy and health & beauty retailer', website: 'https://www.boots.ie' },
+  { name: 'McCauley Health & Beauty', industry: 'Health & Beauty', description: 'Irish pharmacy chain', website: 'https://www.mccauley.ie' },
+  
+  // Sports & Fitness
+  { name: 'GAA (Gaelic Athletic Association)', industry: 'Sports & Fitness', description: 'Ireland\'s largest sporting organisation', website: 'https://www.gaa.ie' },
+  { name: 'IRFU (Irish Rugby)', industry: 'Sports & Fitness', description: 'Governing body for rugby union in Ireland', website: 'https://www.irishrugby.ie' }
+]
+
+// Generate proper Irish Eircode (postal code)
+const generateEircode = (county: string): string => {
+  const countyPrefixes: { [key: string]: string } = {
+    'Dublin': 'D',
+    'Cork': 'T',
+    'Galway': 'H',
+    'Limerick': 'V',
+    'Waterford': 'X',
+    'Kerry': 'V',
+    'Mayo': 'F',
+    'Donegal': 'F',
+    'Tipperary': 'E',
+    'Clare': 'V',
+    'Wexford': 'Y',
+    'Kilkenny': 'R',
+    'Meath': 'C',
+    'Kildare': 'W',
+    'Wicklow': 'A',
+    'Offaly': 'R',
+    'Laois': 'R',
+    'Westmeath': 'N',
+    'Longford': 'N',
+    'Roscommon': 'F',
+    'Leitrim': 'N',
+    'Cavan': 'H',
+    'Monaghan': 'H',
+    'Louth': 'A',
+    'Carlow': 'R',
+    'Sligo': 'F'
+  }
+  
+  const prefix = countyPrefixes[county] || 'A'
+  const numbers = faker.string.numeric(2)
+  const letters = faker.string.alpha({ length: 4, casing: 'upper' })
+  
+  return `${prefix}${numbers} ${letters}`
+}
+
+// Generate Irish address
+const generateIrishAddress = () => {
+  const city = faker.helpers.arrayElement(IRISH_CITIES)
+  const streetTypes = ['Street', 'Road', 'Avenue', 'Lane', 'Close', 'Park', 'Green', 'Square', 'Terrace']
+  const streetNames = [
+    'Main', 'Church', 'High', 'Mill', 'Bridge', 'Castle', 'Market', 'Abbey', 'Patrick', 'Michael',
+    'O\'Connell', 'Grafton', 'Henry', 'Dame', 'Temple', 'Nassau', 'Kildare', 'Merrion', 'Stephen\'s',
+    'Trinity', 'College', 'Pearse', 'Wolfe Tone', 'Emmet', 'Parnell', 'Sackville', 'Baggot'
+  ]
+  
+  const streetNumber = faker.number.int({ min: 1, max: 999 })
+  const streetName = faker.helpers.arrayElement(streetNames)
+  const streetType = faker.helpers.arrayElement(streetTypes)
+  const eircode = generateEircode(city.county)
+  
+  return {
+    address: `${streetNumber} ${streetName} ${streetType}, ${city.name}, Co. ${city.county}`,
+    city: city.name,
+    county: city.county,
+    eircode: eircode,
+    coordinates: city.coordinates
+  }
+}
+
+// Generate Irish phone number
+const generateIrishPhone = (): string => {
+  const prefixes = ['01', '021', '091', '061', '051', '087', '085', '086', '083', '089']
+  const prefix = faker.helpers.arrayElement(prefixes)
+  const number = faker.string.numeric(7)
+  return `+353 ${prefix} ${number}`
+}
+
+// Generate Irish names
+const IRISH_FIRST_NAMES = {
+  male: ['Liam', 'Noah', 'Conor', 'Sean', 'Oisin', 'Fionn', 'Cian', 'Luke', 'Adam', 'James', 'Daniel', 'Michael', 'David', 'Ryan', 'Eoin', 'Darragh', 'Tadhg', 'Cathal', 'Ruairi', 'Niall'],
+  female: ['Emma', 'Emily', 'Grace', 'Fiadh', 'Sophie', 'Ava', 'Amelia', 'Ella', 'Saoirse', 'Kate', 'Anna', 'Aoife', 'Sarah', 'Molly', 'Lily', 'Hannah', 'Lucy', 'Caoimhe', 'Niamh', 'Ciara']
+}
+
+const IRISH_SURNAMES = [
+  'Murphy', 'Kelly', 'O\'Sullivan', 'Walsh', 'Smith', 'O\'Brien', 'Byrne', 'Ryan', 'O\'Connor', 'O\'Neill',
+  'O\'Reilly', 'Doyle', 'McCarthy', 'Gallagher', 'O\'Doherty', 'Kennedy', 'Lynch', 'Murray', 'Quinn', 'Moore',
+  'McLoughlin', 'O\'Carroll', 'Connolly', 'Daly', 'O\'Connell', 'Wilson', 'Dunne', 'Griffin', 'Fitzpatrick', 'Power'
+]
+
+const generateIrishName = () => {
+  const gender = faker.helpers.arrayElement(['male', 'female'])
+  const firstName = faker.helpers.arrayElement(IRISH_FIRST_NAMES[gender])
+  const lastName = faker.helpers.arrayElement(IRISH_SURNAMES)
+  return { firstName, lastName }
+}
+
 async function seedDatabase() {
   console.log('🌱 Starting database seeding...')
 
@@ -62,12 +244,13 @@ async function seedDatabase() {
     console.log('👥 Seeding users...')
     const userData = []
     for (let i = 0; i < 50; i++) {
+      const irishName = generateIrishName()
       userData.push({
-        firstName: faker.person.firstName(),
-        lastName: faker.person.lastName(),
-        email: faker.internet.email().toLowerCase(),
+        firstName: irishName.firstName,
+        lastName: irishName.lastName,
+        email: faker.internet.email({ firstName: irishName.firstName.toLowerCase(), lastName: irishName.lastName.toLowerCase() }).toLowerCase(),
         password: await hashPassword('password123'),
-        phone: faker.string.numeric(10),
+        phone: generateIrishPhone(),
         avatar: faker.image.avatar(),
         role: 'customer' as const,
         membershipLevel: faker.helpers.arrayElement(['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'] as const),
@@ -87,8 +270,8 @@ async function seedDatabase() {
           },
           newsletter: faker.datatype.boolean(),
           language: 'en',
-          currency: 'USD',
-          timezone: 'America/New_York'
+          currency: 'EUR',
+          timezone: 'Europe/Dublin'
         },
         socialAccounts: {
           google: faker.datatype.boolean() ? {
@@ -112,26 +295,27 @@ async function seedDatabase() {
     // 3. Seed Brands
     console.log('🏢 Seeding brands...')
     const brandData = []
-    for (let i = 0; i < 20; i++) {
-      const companyName = faker.company.name()
+    
+    // First, add authentic Irish brands
+    for (const irishBrand of IRISH_BRANDS) {
+      const irishAddress = generateIrishAddress()
+      const brandName = irishBrand.name.toLowerCase().replace(/[^a-z0-9]/g, '')
+      
       brandData.push({
-        name: companyName,
-        email: faker.internet.email({ firstName: companyName.toLowerCase().replace(/\s+/g, '') }),
+        name: irishBrand.name,
+        email: `info@${brandName}.ie`,
         password: await hashPassword('brandpass123'),
-        description: faker.company.catchPhrase() + '. ' + faker.lorem.sentences(2),
+        description: irishBrand.description,
         logo: faker.image.urlLoremFlickr({ category: 'business' }),
         coverImage: faker.image.urlLoremFlickr({ category: 'business', width: 1200, height: 400 }),
-        website: faker.internet.url(),
-        phone: faker.string.numeric(10),
-        address: faker.location.streetAddress({ useFullAddress: true }),
+        website: irishBrand.website,
+        phone: generateIrishPhone(),
+        address: irishAddress.address,
         location: {
-          city: faker.location.city(),
-          state: faker.location.state(),
-          country: faker.location.country(),
-          coordinates: {
-            lat: parseFloat(faker.location.latitude()),
-            lng: parseFloat(faker.location.longitude())
-          }
+          city: irishAddress.city,
+          state: irishAddress.county,
+          country: 'Ireland',
+          coordinates: irishAddress.coordinates
         },
         businessHours: {
           monday: '9:00 AM - 6:00 PM',
@@ -143,10 +327,77 @@ async function seedDatabase() {
           sunday: 'Closed'
         },
         socialMedia: {
-          instagram: `@${companyName.toLowerCase().replace(/\s+/g, '')}`,
-          facebook: faker.internet.url(),
-          twitter: `@${companyName.toLowerCase().replace(/\s+/g, '')}`,
-          linkedin: faker.internet.url()
+          instagram: `@${brandName}`,
+          facebook: `https://facebook.com/${brandName}`,
+          twitter: `@${brandName}`,
+          linkedin: `https://linkedin.com/company/${brandName}`
+        },
+        businessRegistration: faker.string.alphanumeric(10).toUpperCase(),
+        documents: [faker.internet.url(), faker.internet.url()],
+        verified: faker.datatype.boolean({ probability: 0.9 }), // Irish brands more likely to be verified
+        status: faker.helpers.arrayElement(['active', 'active', 'active', 'pending_verification'] as const), // Mostly active
+        rating: faker.number.float({ min: 3.5, max: 5, fractionDigits: 2 }).toString(),
+        totalReviews: faker.number.int({ min: 100, max: 2000 }),
+        activeOffers: faker.number.int({ min: 5, max: 25 }),
+        totalOffers: faker.number.int({ min: 20, max: 150 }),
+        followers: faker.number.int({ min: 1000, max: 50000 }),
+        totalSavings: faker.number.float({ min: 10000, max: 100000, fractionDigits: 2 }).toString(),
+        totalViews: faker.number.int({ min: 10000, max: 500000 }),
+        settings: {
+          notifications: {
+            newFollowers: faker.datatype.boolean(),
+            offerClaims: faker.datatype.boolean(),
+            reviews: faker.datatype.boolean()
+          },
+          privacy: {
+            showEmail: faker.datatype.boolean(),
+            showPhone: faker.datatype.boolean()
+          }
+        },
+        lastOfferDate: faker.date.recent({ days: 30 }),
+        lastLoginAt: faker.date.recent({ days: 3 }),
+        isActive: faker.datatype.boolean({ probability: 0.95 }),
+        emailVerified: faker.datatype.boolean({ probability: 0.95 })
+      })
+    }
+    
+    // Add some additional fictional Irish brands to reach desired count
+    const additionalBrandsNeeded = Math.max(0, 50 - IRISH_BRANDS.length)
+    for (let i = 0; i < additionalBrandsNeeded; i++) {
+      const irishAddress = generateIrishAddress()
+      const companyName = `${faker.helpers.arrayElement(['Celtic', 'Emerald', 'Shamrock', 'Clover', 'Gaelic', 'Dublin', 'Cork', 'Galway'])} ${faker.company.buzzNoun()}`
+      const brandName = companyName.toLowerCase().replace(/[^a-z0-9]/g, '')
+      
+      brandData.push({
+        name: companyName,
+        email: `info@${brandName}.ie`,
+        password: await hashPassword('brandpass123'),
+        description: faker.company.catchPhrase() + '. ' + faker.lorem.sentences(2),
+        logo: faker.image.urlLoremFlickr({ category: 'business' }),
+        coverImage: faker.image.urlLoremFlickr({ category: 'business', width: 1200, height: 400 }),
+        website: `https://www.${brandName}.ie`,
+        phone: generateIrishPhone(),
+        address: irishAddress.address,
+        location: {
+          city: irishAddress.city,
+          state: irishAddress.county,
+          country: 'Ireland',
+          coordinates: irishAddress.coordinates
+        },
+        businessHours: {
+          monday: '9:00 AM - 6:00 PM',
+          tuesday: '9:00 AM - 6:00 PM',
+          wednesday: '9:00 AM - 6:00 PM',
+          thursday: '9:00 AM - 6:00 PM',
+          friday: '9:00 AM - 6:00 PM',
+          saturday: '10:00 AM - 4:00 PM',
+          sunday: 'Closed'
+        },
+        socialMedia: {
+          instagram: `@${brandName}`,
+          facebook: `https://facebook.com/${brandName}`,
+          twitter: `@${brandName}`,
+          linkedin: `https://linkedin.com/company/${brandName}`
         },
         businessRegistration: faker.string.alphanumeric(10).toUpperCase(),
         documents: [faker.internet.url(), faker.internet.url()],
@@ -199,7 +450,7 @@ async function seedDatabase() {
         : originalPrice * 0.5 // buy one get one
 
       const startDate = faker.date.recent({ days: 30 })
-      const endDate = faker.date.future({ days: 60, refDate: startDate })
+      const endDate = new Date(startDate.getTime() + (60 * 24 * 60 * 60 * 1000)) // 60 days from start date
 
       offerData.push({
         brandId: brand.id,
@@ -210,7 +461,7 @@ async function seedDatabase() {
         discountValue: discountValue.toString(),
         originalPrice: originalPrice.toString(),
         finalPrice: finalPrice.toString(),
-        currency: 'USD',
+        currency: 'EUR',
         startDate,
         endDate,
         maxClaims: faker.number.int({ min: 10, max: 1000 }),
@@ -242,8 +493,8 @@ async function seedDatabase() {
         claimCode: generateClaimCode(),
         status,
         claimedAt,
-        usedAt: status === 'used' ? faker.date.future({ days: 7, refDate: claimedAt }) : null,
-        expiresAt: faker.date.future({ days: 30, refDate: claimedAt }),
+        usedAt: status === 'used' ? new Date(claimedAt.getTime() + (7 * 24 * 60 * 60 * 1000)) : null,
+        expiresAt: new Date(claimedAt.getTime() + (30 * 24 * 60 * 60 * 1000)),
         savings: faker.number.float({ min: 5, max: 500, fractionDigits: 2 }).toString()
       })
     }
@@ -351,7 +602,7 @@ async function seedDatabase() {
       hotDealData.push({
         offerId: offer.id,
         startDate: faker.date.recent({ days: 7 }),
-        endDate: faker.date.future({ days: 14 }),
+        endDate: new Date(Date.now() + (14 * 24 * 60 * 60 * 1000)),
         priority: index + 1,
         isActive: faker.datatype.boolean({ probability: 0.9 })
       })

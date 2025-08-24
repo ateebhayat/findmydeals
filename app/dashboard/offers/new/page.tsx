@@ -304,7 +304,7 @@ export default function NewOfferPage() {
                         id="location"
                         value={formData.location}
                         onChange={(e) => handleInputChange("location", e.target.value)}
-                        placeholder="e.g., New York, NY or Online"
+                        placeholder="e.g., Dublin, Ireland or Online"
                       />
                     </div>
 

@@ -32,178 +32,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-
-// Enhanced mock data with more realistic content
-const featuredOffers = [
-  {
-    id: 1,
-    title: '50% Off Summer Collection',
-    description: 'Get 50% off on all summer clothing items including dresses, tops, shorts, and accessories. Limited time offer with free shipping on orders over $75!',
-    discount: '50%',
-    discountType: 'percentage',
-    validUntil: '2024-08-31',
-    brand: {
-      id: 1,
-      name: 'Fashion Forward',
-      logo: '/placeholder.svg?height=40&width=40&text=FF',
-      verified: true,
-      rating: 4.8,
-      totalReviews: 2340,
-    },
-    image: '/placeholder.svg?height=300&width=400&text=Summer+Fashion+Collection',
-    category: 'Fashion & Clothing',
-    views: 12500,
-    claims: 890,
-    maxClaims: 2000,
-    trending: true,
-    location: 'New York, NY',
-    originalPrice: 200,
-    discountedPrice: 100,
-    tags: ['Summer', 'Clothing', 'Fashion', 'Free Shipping'],
-    urgency: 'high',
-    featured: true,
-    savings: '$2.1M',
-  },
-  {
-    id: 2,
-    title: 'Free Premium Shipping + 20% Off Electronics',
-    description: 'Enjoy free premium shipping on all electronics plus an additional 20% off. Perfect for upgrading your tech setup with the latest gadgets.',
-    discount: '20%',
-    discountType: 'percentage',
-    validUntil: '2024-07-28',
-    brand: {
-      id: 2,
-      name: 'TechHub Pro',
-      logo: '/placeholder.svg?height=40&width=40&text=TH',
-      verified: true,
-      rating: 4.7,
-      totalReviews: 1890,
-    },
-    image: '/placeholder.svg?height=300&width=400&text=Electronics+Sale',
-    category: 'Electronics & Tech',
-    views: 8900,
-    claims: 456,
-    maxClaims: 1000,
-    trending: false,
-    location: 'San Francisco, CA',
-    originalPrice: 500,
-    discountedPrice: 400,
-    tags: ['Electronics', 'Tech', 'Free Shipping', 'Premium'],
-    urgency: 'medium',
-    featured: true,
-    savings: '$890K',
-  },
-  {
-    id: 3,
-    title: 'Buy 2 Get 1 Free Gourmet Coffee',
-    description: 'Purchase any two premium coffee blends and get the third one absolutely free. Includes our award-winning single-origin beans from around the world.',
-    discount: '33%',
-    discountType: 'bogo',
-    validUntil: '2024-08-15',
-    brand: {
-      id: 3,
-      name: 'Artisan Brew Co.',
-      logo: '/placeholder.svg?height=40&width=40&text=AB',
-      verified: true,
-      rating: 4.9,
-      totalReviews: 3450,
-    },
-    image: '/placeholder.svg?height=300&width=400&text=Gourmet+Coffee+Beans',
-    category: 'Food & Beverage',
-    views: 5670,
-    claims: 234,
-    maxClaims: 500,
-    trending: true,
-    location: 'Portland, OR',
-    originalPrice: 45,
-    discountedPrice: 30,
-    tags: ['Coffee', 'Gourmet', 'Buy 2 Get 1', 'Premium'],
-    urgency: 'low',
-    featured: true,
-    savings: '$156K',
-  },
-];
-
-const categories = [
-  {
-    name: 'Fashion',
-    icon: '👗',
-    count: 2450,
-    color: 'from-pink-500 to-rose-500',
-    description: 'Clothing, accessories, and style',
-    trending: true,
-  },
-  {
-    name: 'Electronics',
-    icon: '📱',
-    count: 1890,
-    color: 'from-blue-500 to-cyan-500',
-    description: 'Gadgets, tech, and devices',
-    trending: true,
-  },
-  {
-    name: 'Beauty',
-    icon: '💄',
-    count: 1560,
-    color: 'from-purple-500 to-pink-500',
-    description: 'Skincare, makeup, and wellness',
-    trending: false,
-  },
-  {
-    name: 'Food',
-    icon: '🍕',
-    count: 1340,
-    color: 'from-orange-500 to-red-500',
-    description: 'Restaurants, groceries, and treats',
-    trending: true,
-  },
-  {
-    name: 'Travel',
-    icon: '✈️',
-    count: 980,
-    color: 'from-green-500 to-teal-500',
-    description: 'Hotels, flights, and experiences',
-    trending: false,
-  },
-  {
-    name: 'Health',
-    icon: '🏥',
-    count: 870,
-    color: 'from-emerald-500 to-green-500',
-    description: 'Fitness, supplements, and care',
-    trending: false,
-  },
-];
-
-const testimonials = [
-  {
-    id: 1,
-    name: 'Sarah Johnson',
-    avatar: '/placeholder.svg?height=60&width=60&text=SJ',
-    role: 'Fashion Enthusiast',
-    content: "I've saved over $2,000 this year using FindMyDeals! The deals are incredible and the platform is so easy to use.",
-    rating: 5,
-    savings: '$2,156',
-  },
-  {
-    id: 2,
-    name: 'Mike Chen',
-    avatar: '/placeholder.svg?height=60&width=60&text=MC',
-    role: 'Tech Professional',
-    content: 'Found amazing deals on electronics here. The verification system gives me confidence in every purchase.',
-    rating: 5,
-    savings: '$1,890',
-  },
-  {
-    id: 3,
-    name: 'Emily Rodriguez',
-    avatar: '/placeholder.svg?height=60&width=60&text=ER',
-    role: 'Small Business Owner',
-    content: 'As a brand owner, this platform has helped us reach thousands of new customers. Highly recommended!',
-    rating: 5,
-    savings: '$5,670',
-  },
-];
+import { featuredOffers, categories, testimonials } from '@/lib/mock-data';
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -420,7 +249,7 @@ export default function HomePage() {
 
                   {/* Enhanced Badges */}
                   <div className="absolute top-4 left-4 flex flex-col space-y-2">
-                    <Badge className={`bg-gradient-to-r ${getUrgencyColor(offer.urgency)} text-white animate-pulse`}>
+                    <Badge className={`bg-gradient-to-r ${getUrgencyColor(offer.urgency || 'medium')} text-white animate-pulse`}>
                       <Sparkles className="w-3 h-3 mr-1" />
                       {offer.discount} OFF
                     </Badge>
@@ -503,7 +332,7 @@ export default function HomePage() {
                             ))}
                           </div>
                           <span className="text-xs text-gray-500">
-                            {offer.brand.rating} ({offer.brand.totalReviews.toLocaleString()})
+                            {offer.brand.rating} ({offer.brand.totalReviews?.toLocaleString() || '0'})
                           </span>
                         </div>
                       </div>

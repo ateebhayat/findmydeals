@@ -4,57 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Store, MapPin, Globe, Star, Calendar, ExternalLink, Tag, Percent, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-
-// Mock data - in real app, this would come from database
-const brandData = {
-  id: 1,
-  name: 'Fashion Forward',
-  description:
-    "Fashion Forward is a leading sustainable fashion brand committed to creating trendy, high-quality clothing while minimizing environmental impact. Founded in 2020, we've been at the forefront of eco-conscious fashion, using recycled materials and ethical manufacturing processes.",
-  category: 'Clothing & Fashion',
-  location: 'New York, NY',
-  website: 'https://fashionforward.com',
-  email: 'contact@fashionforward.com',
-  phone: '+1 (555) 123-4567',
-  rating: 4.8,
-  totalReviews: 324,
-  verified: true,
-  joinedDate: '2023-01-15',
-  totalOffers: 8,
-  activeOffers: 3,
-  totalViews: 15420,
-  address: '123 Fashion Avenue, New York, NY 10001',
-};
-
-const offers = [
-  {
-    id: 1,
-    title: '50% Off Summer Collection',
-    description: 'Get 50% off on all summer clothing items. Limited time offer!',
-    discount: '50%',
-    validUntil: '2024-08-31',
-    isActive: true,
-    category: 'Clothing',
-  },
-  {
-    id: 2,
-    title: 'Free Shipping Weekend',
-    description: 'Enjoy free shipping on all orders this weekend only.',
-    discount: 'Free Shipping',
-    validUntil: '2024-07-28',
-    isActive: true,
-    category: 'Clothing',
-  },
-  {
-    id: 3,
-    title: 'Student Discount',
-    description: 'Students get 20% off with valid student ID.',
-    discount: '20%',
-    validUntil: '2024-12-31',
-    isActive: true,
-    category: 'Clothing',
-  },
-];
+import { brandData, offers } from '@/lib/mock-data';
 
 export default function BrandProfilePage({ params }: { params: { id: string } }) {
   return (
@@ -202,7 +152,7 @@ export default function BrandProfilePage({ params }: { params: { id: string } })
                 <Separator />
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Profile Views</span>
-                  <span className="font-semibold">{brandData.totalViews.toLocaleString()}</span>
+                  <span className="font-semibold">{brandData.totalViews?.toLocaleString() || '0'}</span>
                 </div>
                 <Separator />
                 <div className="flex items-center justify-between">

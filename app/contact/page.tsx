@@ -220,8 +220,8 @@ export default function ContactPage() {
                   <Phone className="h-5 w-5 text-primary mt-0.5" />
                   <div>
                     <p className="font-medium">Phone</p>
-                    <p className="text-sm text-muted-foreground">+1 (555) 123-4567</p>
-                    <p className="text-sm text-muted-foreground">Mon-Fri, 9am-6pm EST</p>
+                    <p className="text-sm text-muted-foreground">+353 1 234 5678</p>
+                    <p className="text-sm text-muted-foreground">Mon-Fri, 9am-6pm GMT</p>
                   </div>
                 </div>
 
@@ -230,11 +230,11 @@ export default function ContactPage() {
                   <div>
                     <p className="font-medium">Address</p>
                     <p className="text-sm text-muted-foreground">
-                      123 Business Ave
+                      15 Grafton Street
                       <br />
-                      Suite 100
+                      Suite 200
                       <br />
-                      New York, NY 10001
+                      Dublin 2, Ireland
                     </p>
                   </div>
                 </div>
@@ -244,9 +244,9 @@ export default function ContactPage() {
                   <div>
                     <p className="font-medium">Business Hours</p>
                     <p className="text-sm text-muted-foreground">
-                      Monday - Friday: 9:00 AM - 6:00 PM EST
+                      Monday - Friday: 9:00 AM - 6:00 PM GMT
                       <br />
-                      Saturday: 10:00 AM - 4:00 PM EST
+                      Saturday: 10:00 AM - 4:00 PM GMT
                       <br />
                       Sunday: Closed
                     </p>

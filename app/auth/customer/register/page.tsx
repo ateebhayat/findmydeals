@@ -256,7 +256,7 @@ console.log({registrationPending})
                       <Input
                         id="firstName"
                         type="text"
-                        placeholder="John"
+                        placeholder="Seán"
                         value={formData.firstName}
                         onChange={e => handleInputChange('firstName', e.target.value)}
                         className={`pl-10 border-2 ${
@@ -277,7 +277,7 @@ console.log({registrationPending})
                       <Input
                         id="lastName"
                         type="text"
-                        placeholder="Doe"
+                        placeholder="O'Brien"
                         value={formData.lastName}
                         onChange={e => handleInputChange('lastName', e.target.value)}
                         className={`pl-10 border-2 ${
@@ -299,7 +299,7 @@ console.log({registrationPending})
                     <Input
                       id="email"
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="sean@example.ie"
                       value={formData.email}
                       onChange={e => handleInputChange('email', e.target.value)}
                       className={`pl-10 border-2 ${
@@ -320,7 +320,7 @@ console.log({registrationPending})
                     <Input
                       id="phone"
                       type="tel"
-                      placeholder="+1 (555) 123-4567"
+                      placeholder="+353 1 234 5678"
                       value={formData.phone}
                       onChange={e => handleInputChange('phone', e.target.value)}
                       className={`pl-10 border-2 ${
