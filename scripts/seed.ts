@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker'
 import bcrypt from 'bcryptjs'
 
 // Database connection
-const connectionString = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_IJeukda8Ah3S@ep-frosty-feather-abtif1mu-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
+const connectionString = 'postgresql://neondb_owner:npg_pAy8GUBvZb9m@ep-young-scene-abjj10jn-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
 const sql = postgres(connectionString)
 const db = drizzle(sql, { schema })
 
