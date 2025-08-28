@@ -91,7 +91,8 @@ export default function CategoriesPage() {
   const { data: categoriesData, isLoading, error } = useCategories()
 
   // Extract data with fallback
-  const categoriesList = categoriesData?.data?.categories ?? categories
+  const categoriesList =  categories
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
