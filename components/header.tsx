@@ -16,7 +16,7 @@ const Header = () => {
     pathname === '/dashboard' ||
     pathname === '/dashboard/settings' ||
     pathname === '/dashboard/analytics' ||
-    pathname ==='/customer/dashboard'
+    pathname ==='/customer/dashboard' 
   ) {
     return null;
   }
