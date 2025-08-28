@@ -153,7 +153,13 @@ export default function CategoriesPage() {
                         className={`mx-auto mb-6 p-6 rounded-3xl bg-gradient-to-br ${category.bgGradient} group-hover:scale-110 transition-transform duration-300 shadow-lg`}
                       >
                         <div className={`p-3 rounded-2xl bg-gradient-to-r ${category.gradient} shadow-lg`}>
-                          <IconComponent className="h-8 w-8 text-white" />
+                          {typeof IconComponent === 'string' ? (
+                            <span className="h-8 w-8 text-white text-2xl leading-none inline-flex items-center justify-center">{IconComponent}</span>
+                          ) : IconComponent ? (
+                            <IconComponent className="h-8 w-8 text-white" />
+                          ) : (
+                            <Store className="h-8 w-8 text-white" />
+                          )}
                         </div>
                       </div>
 
